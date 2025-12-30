@@ -58,7 +58,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             // Track last login time
-            Auth::user()->forceFill(['last_login_at' => now()])->save();
+            Auth::user()->update(['last_login_at' => now()]);
 
             if (Auth::user()->is_admin) {
                 return redirect()->intended(route('admin.dashboard'));

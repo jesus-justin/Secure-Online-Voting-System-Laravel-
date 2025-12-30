@@ -71,17 +71,14 @@
 
 @push('scripts')
 <script>
-document.getElementById('voteForm')?.addEventListener('submit', function(e) {
-    e.preventDefault();
-    if (!confirm('Are you sure you want to cast this vote? This action cannot be undone.')) {
-        return;
-    }
-    grecaptcha.ready(function() {
-        grecaptcha.execute('{{ config('recaptcha.site_key') }}', {action: 'vote'}).then(function(token) {
-            document.getElementById('recaptcha_token').value = token;
-            e.target.submit();
-        });
+const voteForm = document.getElementById('voteForm');
+if (voteForm) {
+    voteForm.addEventListener('submit', function(e) {
+        if (!confirm('Are you sure you want to cast this vote? This action cannot be undone.')) {
+            e.preventDefault();
+        }
+        // Form will submit normally - recaptcha disabled for now
     });
-});
+}
 </script>
 @endpush
