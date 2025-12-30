@@ -20,9 +20,9 @@ class VotingController extends Controller
 
     public function index()
     {
-        $elections = Election::where('is_active', true)
-            ->where('start_time', '<=', now())
-            ->where('end_time', '>=', now())
+        $elections = Election::where('status', 'active')
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
             ->with('candidates')
             ->get();
 

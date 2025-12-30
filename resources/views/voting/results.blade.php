@@ -14,7 +14,7 @@
                     <div class="alert alert-info">
                         <i class="bi bi-info-circle"></i> Total Votes: <strong>{{ $totalVotes }}</strong>
                         <br>
-                        <small>Election Period: {{ $election->start_time->format('M d, Y H:i') }} - {{ $election->end_time->format('M d, Y H:i') }}</small>
+                        <small>Election Period: {{ $election->start_date->format('M d, Y H:i') }} - {{ $election->end_date->format('M d, Y H:i') }}</small>
                     </div>
 
                     <div class="row">

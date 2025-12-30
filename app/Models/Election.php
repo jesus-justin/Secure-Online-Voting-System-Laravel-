@@ -13,18 +13,20 @@ class Election extends Model
     protected $fillable = [
         'title',
         'description',
-        'start_time',
-        'end_time',
+        'status',
+        'start_date',
+        'end_date',
         'is_active',
         'allow_anonymous',
         'max_votes_per_user',
     ];
 
     protected $casts = [
-        'start_time' => 'datetime',
-        'end_time' => 'datetime',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
         'is_active' => 'boolean',
         'allow_anonymous' => 'boolean',
+        'status' => 'string',
     ];
 
     public function candidates()
@@ -50,19 +52,19 @@ class Election extends Model
     public function isActive()
     {
         $now = Carbon::now();
-        return $this->is_active 
-            && $this->start_time <= $now 
-            && $this->end_time >= $now;
+        return $this->status === 'active'
+            && $this->start_date <= $now
+            && $this->end_date >= $now;
     }
 
     public function hasStarted()
     {
-        return Carbon::now() >= $this->start_time;
+        return Carbon::now() >= $this->start_date;
     }
 
     public function hasEnded()
     {
-        return Carbon::now() > $this->end_time;
+        return Carbon::now() > $this->end_date;
     }
 
     public function getTotalVotesAttribute()

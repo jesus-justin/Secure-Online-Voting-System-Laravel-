@@ -15,7 +15,7 @@
 
                     <div class="alert alert-info">
                         <i class="bi bi-clock"></i> 
-                        Voting ends on {{ $election->end_time->format('F d, Y \a\t H:i') }}
+                        Voting ends on {{ $election->end_date->format('F d, Y \a\t H:i') }}
                     </div>
 
                     @if($hasVoted)
