@@ -17,16 +17,10 @@ class Vote extends Model
         'encrypted_vote',
         'ip_address',
         'device_fingerprint',
-        'user_agent',
-        'voted_at',
-        'is_verified',
-        'is_tampered',
     ];
 
     protected $casts = [
         'voted_at' => 'datetime',
-        'is_verified' => 'boolean',
-        'is_tampered' => 'boolean',
     ];
 
     public function election()
