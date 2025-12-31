@@ -69,16 +69,13 @@ class Election extends Model
 
     public function getTotalVotesAttribute()
     {
-        return $this->votes()->where('is_verified', true)->count();
+        return $this->votes()->count();
     }
 
     public function getResults()
     {
         return $this->candidates()
-            ->withCount(['votes' => function($query) {
-                $query->where('is_verified', true)
-                      ->where('is_tampered', false);
-            }])
+            ->withCount('votes')
             ->orderBy('votes_count', 'desc')
             ->get();
     }
