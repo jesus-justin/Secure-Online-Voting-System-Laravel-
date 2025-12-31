@@ -9,6 +9,8 @@ class VoteLog extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'election_id',
         'user_id',
@@ -16,10 +18,12 @@ class VoteLog extends Model
         'ip_address',
         'device_fingerprint',
         'details',
+        'performed_at',
     ];
 
     protected $casts = [
         'details' => 'array',
+        'performed_at' => 'datetime',
     ];
 
     public function election()
@@ -41,6 +45,7 @@ class VoteLog extends Model
             'ip_address' => $ipAddress,
             'device_fingerprint' => $deviceFingerprint,
             'details' => $details,
+            'performed_at' => now(),
         ]);
     }
 }
