@@ -218,7 +218,7 @@ class AdminController extends Controller
     {
         $results = $election->getResults();
         $totalVotes = $election->total_votes;
-        $voteLogs = $election->voteLogs()->latest()->take(20)->get();
+        $voteLogs = $election->voteLogs()->orderBy('performed_at', 'desc')->take(20)->get();
 
         return view('admin.elections.results', compact('election', 'results', 'totalVotes', 'voteLogs'));
     }
