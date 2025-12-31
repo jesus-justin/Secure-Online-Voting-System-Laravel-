@@ -29,10 +29,7 @@ class Candidate extends Model
 
     public function getVoteCountAttribute()
     {
-        return $this->votes()
-            ->where('is_verified', true)
-            ->where('is_tampered', false)
-            ->count();
+        return $this->votes()->count();
     }
 
     public function getVotePercentageAttribute()
