@@ -50,9 +50,6 @@ class VotingService
                 'encrypted_vote' => $encryptedVote,
                 'ip_address' => $ipAddress,
                 'device_fingerprint' => $deviceFingerprint,
-                'user_agent' => $userAgent,
-                'voted_at' => $timestamp,
-                'is_verified' => true,
             ]);
 
             // Log the successful vote
