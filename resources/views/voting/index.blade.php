@@ -29,8 +29,8 @@
                         <div class="mb-3">
                             <small class="text-muted">
                                 <i class="bi bi-calendar-event"></i> 
-                                {{ $election->start_time->format('M d, Y H:i') }} - 
-                                {{ $election->end_time->format('M d, Y H:i') }}
+                                {{ $election->start_time ? $election->start_time->format('M d, Y H:i') : 'N/A' }} - 
+                                {{ $election->end_time ? $election->end_time->format('M d, Y H:i') : 'N/A' }}
                             </small>
                         </div>
 
