@@ -37,32 +37,47 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row g-4">
                         @foreach($results as $index => $candidate)
-                            <div class="col-md-6 mb-4">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center mb-2">
-                                            <h5 class="mb-0">
+                            <div class="col-md-6">
+                                <div class="card shadow-sm border-0 h-100" 
+                                     style="border-left: 4px solid {{ $index === 0 ? '#ffc107' : '#6c757d' }} !important;">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <h5 class="mb-0 fw-bold">
                                                 @if($index === 0)
-                                                    <i class="bi bi-trophy-fill text-warning"></i>
+                                                    <i class="bi bi-trophy-fill text-warning me-2" style="font-size: 1.5rem;"></i>
+                                                @elseif($index === 1)
+                                                    <i class="bi bi-award-fill text-secondary me-2"></i>
+                                                @elseif($index === 2)
+                                                    <i class="bi bi-award text-info me-2"></i>
+                                                @else
+                                                    <span class="badge bg-light text-dark me-2">{{ $index + 1 }}</span>
                                                 @endif
                                                 {{ $candidate->name }}
                                             </h5>
-                                            <span class="badge bg-primary">{{ $candidate->votes_count }} votes</span>
+                                            <div class="text-end">
+                                                <h4 class="mb-0 text-primary">{{ $candidate->votes_count }}</h4>
+                                                <small class="text-muted">votes</small>
+                                            </div>
                                         </div>
 
-                                        <div class="progress mb-2" style="height: 30px;">
-                                            <div class="progress-bar bg-success" role="progressbar" 
+                                        <div class="progress mb-3 shadow-sm" style="height: 35px; border-radius: 10px;">
+                                            <div class="progress-bar {{ $index === 0 ? 'bg-warning' : 'bg-primary' }} bg-gradient" 
+                                                 role="progressbar" 
                                                  style="width: {{ $totalVotes > 0 ? ($candidate->votes_count / $totalVotes * 100) : 0 }}%"
                                                  aria-valuenow="{{ $candidate->votes_count }}" 
                                                  aria-valuemin="0" aria-valuemax="{{ $totalVotes }}">
-                                                {{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}%
+                                                <strong style="font-size: 1.1rem;">
+                                                    {{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}%
+                                                </strong>
                                             </div>
                                         </div>
 
                                         @if($candidate->description)
-                                            <p class="text-muted small mb-0">{{ $candidate->description }}</p>
+                                            <p class="text-muted small mb-0">
+                                                <i class="bi bi-info-circle"></i> {{ $candidate->description }}
+                                            </p>
                                         @endif
                                     </div>
                                 </div>
