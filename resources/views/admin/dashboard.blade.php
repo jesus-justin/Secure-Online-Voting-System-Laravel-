@@ -7,8 +7,13 @@
 @endphp
 
 @section('content')
-<div class="container-fluid">
-    <h2 class="mb-4"><i class="bi bi-speedometer2"></i> Admin Dashboard</h2>
+<div class="container-fluid py-5" style="background-color: #f8f9fa;">
+    <div class="mb-5">
+        <h1 class="display-5 fw-bold text-dark mb-2">
+            <i class="bi bi-speedometer2 text-primary"></i> Admin Dashboard
+        </h1>
+        <p class="text-muted lead">Manage elections, users, and monitor system activity</p>
+    </div>
 
     <!-- Statistics Cards -->
     <div class="row mb-4">
