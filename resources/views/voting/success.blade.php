@@ -39,17 +39,26 @@
                         </div>
                     </div>
 
-                    <div class="d-grid gap-2 mt-4">
-                        <a href="{{ route('voting.index') }}" class="btn btn-primary">
-                            <i class="bi bi-arrow-left"></i> Back to Elections
+                    <div class="d-grid gap-3 mt-4">
+                        <a href="{{ route('voting.index') }}" class="btn btn-primary btn-lg shadow">
+                            <i class="bi bi-arrow-left-circle-fill"></i> Back to Elections
                         </a>
                         @if($election->hasEnded() || auth()->user()->is_admin)
-                            <a href="{{ route('voting.results', $election) }}" class="btn btn-outline-secondary">
-                                <i class="bi bi-bar-chart"></i> View Results
+                            <a href="{{ route('voting.results', $election) }}" class="btn btn-outline-success btn-lg">
+                                <i class="bi bi-bar-chart-line-fill"></i> View Results
                             </a>
                         @endif
+                        <a href="{{ route('home') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-house-fill"></i> Return to Dashboard
+                        </a>
                     </div>
                 </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <p class="text-muted small">
+                    <i class="bi bi-info-circle"></i> You can safely close this page. Your vote has been recorded.
+                </p>
             </div>
         </div>
     </div>
