@@ -3,27 +3,36 @@
 @section('title', 'Dashboard - Secure Voting')
 
 @section('content')
-<div class="container-fluid py-5">
+<div class="container-fluid py-5" style="background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);">
     <!-- Welcome Header -->
     <div class="row mb-5">
         <div class="col-md-8">
-            <h1 class="display-5 fw-bold text-dark">
-                <i class="bi bi-house-check"></i> Welcome Back, {{ auth()->user()->name }}!
+            <h1 class="display-4 fw-bold text-dark mb-3">
+                <i class="bi bi-house-heart-fill text-primary"></i> Welcome Back, {{ auth()->user()->name }}!
             </h1>
-            <p class="lead text-muted">
+            <p class="lead text-muted mb-3">
+                Here's your voting dashboard overview
+            </p>
+            <div class="d-flex flex-wrap gap-2">
                 @if(auth()->user()->verified_at)
-                    <span class="badge bg-success"><i class="bi bi-check-circle"></i> Verified User</span>
+                    <span class="badge bg-success bg-gradient px-3 py-2" style="font-size: 0.9rem;">
+                        <i class="bi bi-check-circle-fill"></i> Verified User
+                    </span>
                 @else
-                    <span class="badge bg-warning text-dark"><i class="bi bi-exclamation-triangle"></i> Pending Verification</span>
+                    <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 0.9rem;">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Pending Verification
+                    </span>
                 @endif
                 @php
                     $lastLogin = auth()->user()->last_login_at;
                 @endphp
-                <span class="badge bg-info ms-2"><i class="bi bi-clock"></i> Last login: {{ $lastLogin ? $lastLogin->diffForHumans() : 'First time' }}</span>
-            </p>
+                <span class="badge bg-info bg-gradient px-3 py-2" style="font-size: 0.9rem;">
+                    <i class="bi bi-clock-history"></i> Last login: {{ $lastLogin ? $lastLogin->diffForHumans() : 'First time' }}
+                </span>
+            </div>
         </div>
-        <div class="col-md-4 text-md-end">
-            <a href="{{ route('logout') }}" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+        <div class="col-md-4 text-md-end mt-4 mt-md-0">
+            <a href="{{ route('logout') }}" class="btn btn-outline-danger btn-lg shadow-sm" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="bi bi-box-arrow-right"></i> Logout
             </a>
             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
