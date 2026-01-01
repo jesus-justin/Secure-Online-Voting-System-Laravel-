@@ -65,18 +65,21 @@
                         </div>
 
                         @if(auth()->user()->hasVotedInElection($election->id))
-                            <a href="{{ route('voting.success', $election) }}" class="btn btn-success w-100">
-                                <i class="bi bi-check-circle"></i> Already Voted
+                            <button class="btn btn-success w-100 mb-2" disabled>
+                                <i class="bi bi-check-circle-fill"></i> Vote Submitted
+                            </button>
+                            <a href="{{ route('voting.success', $election) }}" class="btn btn-outline-success w-100">
+                                <i class="bi bi-receipt"></i> View Receipt
                             </a>
                         @else
-                            <a href="{{ route('voting.show', $election) }}" class="btn btn-primary w-100">
-                                <i class="bi bi-hand-index"></i> Vote Now
+                            <a href="{{ route('voting.show', $election) }}" class="btn btn-primary w-100 btn-lg">
+                                <i class="bi bi-hand-index-thumb"></i> Vote Now
                             </a>
                         @endif
 
                         @if($election->hasEnded() || auth()->user()?->is_admin)
-                            <a href="{{ route('voting.results', $election) }}" class="btn btn-outline-secondary w-100 mt-2">
-                                <i class="bi bi-bar-chart"></i> View Results
+                            <a href="{{ route('voting.results', $election) }}" class="btn btn-outline-primary w-100 mt-2">
+                                <i class="bi bi-bar-chart-line"></i> View Results
                             </a>
                         @endif
                     </div>
