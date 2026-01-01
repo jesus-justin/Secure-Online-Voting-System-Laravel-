@@ -3,11 +3,18 @@
 @section('title', 'Active Elections')
 
 @section('content')
-<div class="container">
-    <div class="row mb-4">
-        <div class="col-md-12">
-            <h2><i class="bi bi-vote-fill"></i> Active Elections</h2>
-            <p class="text-muted">Select an election to cast your vote</p>
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-md-12 text-center">
+            <h1 class="display-4 fw-bold mb-3">
+                <i class="bi bi-vote-fill text-primary"></i> Active Elections
+            </h1>
+            <p class="lead text-muted">Select an election below to cast your secure vote</p>
+            <div class="d-inline-block mt-3">
+                <span class="badge bg-primary bg-gradient px-4 py-2" style="font-size: 1rem;">
+                    <i class="bi bi-check-circle-fill"></i> Secure & Anonymous Voting
+                </span>
+            </div>
         </div>
     </div>
 
