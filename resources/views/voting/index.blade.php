@@ -19,9 +19,14 @@
     </div>
 
     @if(auth()->user() && !auth()->user()->is_verified)
-        <div class="alert alert-warning">
-            <i class="bi bi-exclamation-triangle"></i>
-            Your account is pending verification. Please wait for an administrator to verify your account before you can vote.
+        <div class="alert alert-warning shadow-sm border-0 rounded-3 mx-auto" style="max-width: 800px;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 2rem;"></i>
+                <div>
+                    <h5 class="alert-heading mb-1">Account Verification Pending</h5>
+                    <p class="mb-0">Your account is awaiting administrator verification. You'll receive access to vote once approved.</p>
+                </div>
+            </div>
         </div>
     @endif
 
