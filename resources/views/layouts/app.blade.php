@@ -147,23 +147,38 @@
     </nav>
 
     @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show m-3" role="alert">
-            <i class="bi bi-check-circle"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-success alert-dismissible fade show m-3 border-0 shadow-sm" role="alert" style="border-left: 4px solid #28a745 !important;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-check-circle-fill me-3" style="font-size: 1.5rem;"></i>
+                <div class="flex-grow-1">
+                    <strong>Success!</strong> {{ session('success') }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     @endif
 
     @if(session('error'))
-        <div class="alert alert-danger alert-dismissible fade show m-3" role="alert">
-            <i class="bi bi-exclamation-triangle"></i> {{ session('error') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-danger alert-dismissible fade show m-3 border-0 shadow-sm" role="alert" style="border-left: 4px solid #dc3545 !important;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-exclamation-triangle-fill me-3" style="font-size: 1.5rem;"></i>
+                <div class="flex-grow-1">
+                    <strong>Error!</strong> {{ session('error') }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     @endif
 
     @if(session('info'))
-        <div class="alert alert-info alert-dismissible fade show m-3" role="alert">
-            <i class="bi bi-info-circle"></i> {{ session('info') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-info alert-dismissible fade show m-3 border-0 shadow-sm" role="alert" style="border-left: 4px solid #0dcaf0 !important;">
+            <div class="d-flex align-items-center">
+                <i class="bi bi-info-circle-fill me-3" style="font-size: 1.5rem;"></i>
+                <div class="flex-grow-1">
+                    <strong>Info:</strong> {{ session('info') }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     @endif
 
