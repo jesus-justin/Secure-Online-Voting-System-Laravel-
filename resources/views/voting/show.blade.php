@@ -48,29 +48,48 @@
                         <form method="POST" action="{{ route('voting.vote', $election) }}" id="voteForm">
                             @csrf
 
-                            <h5 class="mb-3">Select Your Candidate:</h5>
+                            <h5 class="mb-4 fw-bold text-center" style="font-size: 1.3rem;">
+                                <i class="bi bi-person-check-fill text-primary"></i> Select Your Candidate
+                            </h5>
 
-                            <div class="row">
+                            <div class="row g-4">
                                 @foreach($candidates as $candidate)
-                                    <div class="col-md-6 mb-3">
-                                        <div class="card candidate-card">
-                                            <div class="card-body">
-                                                @if($candidate->photo)
-                                                    <img src="{{ asset('storage/' . $candidate->photo) }}" 
-                                                         class="img-fluid mb-3 rounded" alt="{{ $candidate->name }}">
-                                                @endif
-                                                <h5 class="card-title">{{ $candidate->name }}</h5>
-                                                <p class="card-text">{{ $candidate->description }}</p>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" 
-                                                           name="candidate_id" id="candidate{{ $candidate->id }}" 
-                                                           value="{{ $candidate->id }}" required>
-                                                    <label class="form-check-label" for="candidate{{ $candidate->id }}">
-                                                        Vote for {{ $candidate->name }}
-                                                    </label>
+                                    <div class="col-md-6">
+                                        <label for="candidate{{ $candidate->id }}" class="w-100">
+                                            <div class="card candidate-card h-100 border-2 position-relative" 
+                                                 style="cursor: pointer; transition: all 0.3s ease;">
+                                                <div class="card-body p-4">
+                                                    @if($candidate->photo)
+                                                        <div class="text-center mb-3">
+                                                            <img src="{{ asset('storage/' . $candidate->photo) }}" 
+                                                                 class="img-fluid rounded-circle shadow" 
+                                                                 alt="{{ $candidate->name }}"
+                                                                 style="width: 120px; height: 120px; object-fit: cover;">
+                                                        </div>
+                                                    @else
+                                                        <div class="text-center mb-3">
+                                                            <div class="rounded-circle bg-primary bg-gradient d-inline-flex align-items-center justify-content-center shadow" 
+                                                                 style="width: 120px; height: 120px;">
+                                                                <i class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
+                                                            </div>
+                                                        </div>
+                                                    @endif
+                                                    
+                                                    <h5 class="card-title text-center mb-3 fw-bold">{{ $candidate->name }}</h5>
+                                                    <p class="card-text text-muted text-center small">{{ $candidate->description }}</p>
+                                                    
+                                                    <div class="form-check text-center mt-3">
+                                                        <input class="form-check-input" type="radio" 
+                                                               name="candidate_id" id="candidate{{ $candidate->id }}" 
+                                                               value="{{ $candidate->id }}" required
+                                                               style="width: 20px; height: 20px;">
+                                                        <label class="form-check-label ms-2 fw-bold text-primary" for="candidate{{ $candidate->id }}">
+                                                            Select {{ $candidate->name }}
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </label>
                                     </div>
                                 @endforeach
                             </div>
