@@ -43,10 +43,17 @@
 
     <!-- Warning Alert for Unverified Users -->
     @if(!auth()->user()->verified_at)
-        <div class="alert alert-warning alert-dismissible fade show mb-5" role="alert">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <strong>Account Not Verified!</strong> Your account is pending admin verification. You'll be able to vote once your account is verified.
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        <div class="alert alert-warning border-0 shadow-sm mb-5" role="alert" style="border-left: 4px solid #ffc107 !important;">
+            <div class="d-flex align-items-start">
+                <div class="me-3">
+                    <i class="bi bi-exclamation-triangle-fill" style="font-size: 2rem;"></i>
+                </div>
+                <div class="flex-grow-1">
+                    <h5 class="alert-heading fw-bold mb-2">Account Verification Required</h5>
+                    <p class="mb-0">Your account is awaiting administrator verification. You'll receive full voting access once your account has been approved by our admin team.</p>
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         </div>
     @endif
 
