@@ -94,22 +94,26 @@
     </div>
 
     <!-- Quick Actions -->
-    <div class="row mb-4">
+    <div class="row mb-5">
         <div class="col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0">Quick Actions</h5>
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-lightning-charge-fill text-warning"></i> Quick Actions
+                    </h5>
                 </div>
-                <div class="card-body">
-                    <a href="{{ route('admin.elections.create') }}" class="btn btn-primary">
-                        <i class="bi bi-plus-circle"></i> Create New Election
-                    </a>
-                    <a href="{{ route('admin.users') }}" class="btn btn-info">
-                        <i class="bi bi-people"></i> Manage Users
-                    </a>
-                    <a href="{{ route('admin.logs') }}" class="btn btn-secondary">
-                        <i class="bi bi-journal-text"></i> View Logs
-                    </a>
+                <div class="card-body p-4">
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{{ route('admin.elections.create') }}" class="btn btn-primary btn-lg shadow-sm">
+                            <i class="bi bi-plus-circle-fill"></i> Create New Election
+                        </a>
+                        <a href="{{ route('admin.users') }}" class="btn btn-info btn-lg shadow-sm">
+                            <i class="bi bi-people-fill"></i> Manage Users
+                        </a>
+                        <a href="{{ route('admin.logs') }}" class="btn btn-secondary btn-lg shadow-sm">
+                            <i class="bi bi-journal-text"></i> View Activity Logs
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
