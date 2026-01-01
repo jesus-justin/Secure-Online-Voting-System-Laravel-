@@ -30,25 +30,38 @@
         </div>
     @endif
 
-    <div class="row">
+    <div class="row g-4">
         @forelse($elections as $election)
-            <div class="col-md-6 col-lg-4 mb-4">
-                <div class="card h-100 card-hover">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $election->title }}</h5>
-                        <p class="card-text text-muted">{{ Str::limit($election->description, 100) }}</p>
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 card-hover shadow">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <h5 class="card-title fw-bold mb-0">{{ $election->title }}</h5>
+                            @if($election->isActive())
+                                <span class="badge bg-success">Live</span>
+                            @endif
+                        </div>
+                        
+                        <p class="card-text text-muted mb-4">{{ Str::limit($election->description, 120) }}</p>
 
-                        <div class="mb-3">
-                            <small class="text-muted">
-                                <i class="bi bi-calendar-event"></i> 
-                                {{ $election->start_time ? $election->start_time->format('M d, Y H:i') : 'N/A' }} - 
-                                {{ $election->end_time ? $election->end_time->format('M d, Y H:i') : 'N/A' }}
-                            </small>
+                        <div class="mb-4">
+                            <div class="d-flex align-items-center text-muted small mb-2">
+                                <i class="bi bi-calendar-event me-2 text-primary"></i> 
+                                <span>{{ $election->start_time ? $election->start_time->format('M d, Y') : 'N/A' }}</span>
+                            </div>
+                            <div class="d-flex align-items-center text-muted small">
+                                <i class="bi bi-clock me-2 text-primary"></i> 
+                                <span>Ends: {{ $election->end_time ? $election->end_time->format('M d, h:i A') : 'N/A' }}</span>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <span class="badge bg-info">{{ $election->candidates->count() }} Candidates</span>
-                            <span class="badge bg-secondary">{{ $election->total_votes }} Votes</span>
+                        <div class="d-flex gap-2 mb-4">
+                            <span class="badge bg-info bg-gradient">
+                                <i class="bi bi-people-fill"></i> {{ $election->candidates->count() }} Candidates
+                            </span>
+                            <span class="badge bg-secondary bg-gradient">
+                                <i class="bi bi-bar-chart-fill"></i> {{ $election->total_votes }} Votes
+                            </span>
                         </div>
 
                         @if(auth()->user()->hasVotedInElection($election->id))
