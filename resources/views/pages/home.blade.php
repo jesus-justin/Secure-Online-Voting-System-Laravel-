@@ -60,54 +60,74 @@
     <!-- Quick Stats -->
     <div class="row g-4 mb-5">
         <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow h-100 bg-primary text-white">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="card-title opacity-75">Active Elections</h6>
-                        <h2 class="mb-0 fw-bold">{{ $activeElections ?? 0 }}</h2>
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="card-title opacity-75 mb-2">Active Elections</h6>
+                            <h2 class="mb-0 fw-bold display-5">{{ $activeElections ?? 0 }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-ballot-check-fill" style="font-size: 2rem;"></i>
+                        </div>
                     </div>
-                    <div style="font-size: 3rem; opacity: 0.3;">
-                        <i class="bi bi-ballot-check"></i>
-                    </div>
+                </div>
+                <div class="position-absolute" style="bottom: -20px; right: -20px; opacity: 0.1;">
+                    <i class="bi bi-ballot-check-fill" style="font-size: 6rem;"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow h-100 bg-success text-white">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="card-title opacity-75">Votes Cast</h6>
-                        <h2 class="mb-0 fw-bold">{{ $castVotes ?? 0 }}</h2>
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="card-title opacity-75 mb-2">Votes Cast</h6>
+                            <h2 class="mb-0 fw-bold display-5">{{ $castVotes ?? 0 }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-check-circle-fill" style="font-size: 2rem;"></i>
+                        </div>
                     </div>
-                    <div style="font-size: 3rem; opacity: 0.3;">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
+                </div>
+                <div class="position-absolute" style="bottom: -20px; right: -20px; opacity: 0.1;">
+                    <i class="bi bi-check-circle-fill" style="font-size: 6rem;"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow h-100 bg-info text-white">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="card-title opacity-75">Completed Elections</h6>
-                        <h2 class="mb-0 fw-bold">{{ $completedElections ?? 0 }}</h2>
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="card-title opacity-75 mb-2">Completed Elections</h6>
+                            <h2 class="mb-0 fw-bold display-5">{{ $completedElections ?? 0 }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-graph-up-arrow" style="font-size: 2rem;"></i>
+                        </div>
                     </div>
-                    <div style="font-size: 3rem; opacity: 0.3;">
-                        <i class="bi bi-graph-up"></i>
-                    </div>
+                </div>
+                <div class="position-absolute" style="bottom: -20px; right: -20px; opacity: 0.1;">
+                    <i class="bi bi-graph-up-arrow" style="font-size: 6rem;"></i>
                 </div>
             </div>
         </div>
         <div class="col-md-6 col-lg-3">
-            <div class="card border-0 shadow h-100 bg-warning text-dark">
-                <div class="card-body d-flex align-items-center">
-                    <div class="flex-grow-1">
-                        <h6 class="card-title opacity-75">Upcoming Elections</h6>
-                        <h2 class="mb-0 fw-bold">{{ $upcomingElections ?? 0 }}</h2>
+            <div class="card border-0 shadow-sm h-100 position-relative overflow-hidden" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="card-title opacity-75 mb-2">Upcoming Elections</h6>
+                            <h2 class="mb-0 fw-bold display-5">{{ $upcomingElections ?? 0 }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-hourglass-split" style="font-size: 2rem;"></i>
+                        </div>
                     </div>
-                    <div style="font-size: 3rem; opacity: 0.3;">
-                        <i class="bi bi-hourglass-split"></i>
-                    </div>
+                </div>
+                <div class="position-absolute" style="bottom: -20px; right: -20px; opacity: 0.1;">
+                    <i class="bi bi-hourglass-split" style="font-size: 6rem;"></i>
                 </div>
             </div>
         </div>
