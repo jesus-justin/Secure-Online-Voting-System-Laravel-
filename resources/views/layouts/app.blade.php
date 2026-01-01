@@ -72,10 +72,11 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('landing') }}">
-                <i class="bi bi-shield-check"></i> Secure Voting
+            <a class="navbar-brand d-flex align-items-center" href="{{ route('landing') }}">
+                <i class="bi bi-shield-check me-2" style="font-size: 1.8rem;"></i> 
+                <span>Secure Voting</span>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
