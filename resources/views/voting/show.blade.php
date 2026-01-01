@@ -31,8 +31,18 @@
                     </div>
 
                     @if($hasVoted)
-                        <div class="alert alert-success">
-                            <i class="bi bi-check-circle"></i> You have already voted in this election.
+                        <div class="alert alert-success border-0 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill me-3" style="font-size: 3rem;"></i>
+                                <div>
+                                    <h4 class="alert-heading mb-1">Vote Already Submitted!</h4>
+                                    <p class="mb-0">You have successfully cast your vote in this election. Thank you for participating!</p>
+                                </div>
+                            </div>
+                            <hr class="my-3">
+                            <a href="{{ route('voting.index') }}" class="btn btn-success">
+                                <i class="bi bi-arrow-left"></i> View Other Elections
+                            </a>
                         </div>
                     @else
                         <form method="POST" action="{{ route('voting.vote', $election) }}" id="voteForm">
