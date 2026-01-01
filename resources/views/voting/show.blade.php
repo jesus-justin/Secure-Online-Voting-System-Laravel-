@@ -96,10 +96,13 @@
 
                             <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="bi bi-send-check"></i> Cast Your Vote
+                            <div class="d-grid gap-2 mt-5">
+                                <button type="submit" class="btn btn-primary btn-lg py-3 shadow">
+                                    <i class="bi bi-send-check-fill"></i> Cast Your Vote Securely
                                 </button>
+                                <a href="{{ route('voting.index') }}" class="btn btn-outline-secondary">
+                                    <i class="bi bi-arrow-left"></i> Back to Elections
+                                </a>
                             </div>
                         </form>
                     @endif
