@@ -25,12 +25,16 @@
                         </div>
 
                         @if ($errors->any())
-                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                <i class="bi bi-exclamation-triangle-fill"></i>
-                                <strong>Login Failed!</strong>
-                                @foreach ($errors->all() as $error)
-                                    <div>{{ $error }}</div>
-                                @endforeach
+                            <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm" role="alert">
+                                <div class="d-flex align-items-start">
+                                    <i class="bi bi-exclamation-triangle-fill me-2 mt-1"></i>
+                                    <div class="flex-grow-1">
+                                        <strong>Login Failed!</strong>
+                                        @foreach ($errors->all() as $error)
+                                            <div class="mt-1">{{ $error }}</div>
+                                        @endforeach
+                                    </div>
+                                </div>
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                             </div>
                         @endif
