@@ -42,14 +42,16 @@
                         <form method="POST" action="{{ route('login') }}" id="loginForm">
                             @csrf
 
-                            <div class="mb-3">
-                                <label for="email" class="form-label fw-5">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-0">
-                                        <i class="bi bi-envelope text-primary"></i>
+                            <div class="mb-4">
+                                <label for="email" class="form-label fw-bold">Email Address</label>
+                                <div class="input-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                                    <span class="input-group-text bg-light border-0 px-4">
+                                        <i class="bi bi-envelope-fill text-primary"></i>
                                     </span>
                                     <input type="email" class="form-control form-control-lg border-0 @error('email') is-invalid @enderror" 
-                                           id="email" name="email" value="{{ old('email') }}" placeholder="Enter your email" required autofocus>
+                                           id="email" name="email" value="{{ old('email') }}" 
+                                           placeholder="Enter your email" required autofocus
+                                           style="padding: 0.75rem 1rem;">
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -57,15 +59,16 @@
                             </div>
 
                             <div class="mb-4">
-                                <label for="password" class="form-label fw-5">Password</label>
-                                <div class="input-group">
-                                    <span class="input-group-text bg-light border-0">
-                                        <i class="bi bi-lock text-primary"></i>
+                                <label for="password" class="form-label fw-bold">Password</label>
+                                <div class="input-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                                    <span class="input-group-text bg-light border-0 px-4">
+                                        <i class="bi bi-lock-fill text-primary"></i>
                                     </span>
                                     <input type="password" class="form-control form-control-lg border-0 @error('password') is-invalid @enderror" 
-                                           id="password" name="password" placeholder="Enter your password" required>
-                                    <button class="btn btn-outline-secondary border-0 px-3" type="button" id="togglePassword" aria-label="Toggle password visibility">
-                                        <i class="bi bi-eye"></i>
+                                           id="password" name="password" placeholder="Enter your password" required
+                                           style="padding: 0.75rem 1rem;">
+                                    <button class="btn btn-outline-secondary border-0 px-4 bg-light" type="button" id="togglePassword" aria-label="Toggle password visibility">
+                                        <i class="bi bi-eye-fill"></i>
                                     </button>
                                     @error('password')
                                         <div class="invalid-feedback">{{ $message }}</div>
