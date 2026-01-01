@@ -3,18 +3,38 @@
 @section('title', 'Results - ' . $election->title)
 
 @section('content')
-<div class="container">
+<div class="container py-5">
     <div class="row">
         <div class="col-md-12">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="bi bi-bar-chart"></i> Election Results: {{ $election->title }}</h4>
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-bar-chart-fill me-3" style="font-size: 2.5rem;"></i>
+                            <div>
+                                <h3 class="mb-0">Election Results</h3>
+                                <p class="mb-0 opacity-75">{{ $election->title }}</p>
+                            </div>
+                        </div>
+                        <span class="badge bg-white text-dark px-3 py-2">
+                            <i class="bi bi-people-fill"></i> {{ $totalVotes }} Total Votes
+                        </span>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="alert alert-info">
-                        <i class="bi bi-info-circle"></i> Total Votes: <strong>{{ $totalVotes }}</strong>
-                        <br>
-                        <small>Election Period: {{ $election->start_date->format('M d, Y H:i') }} - {{ $election->end_date->format('M d, Y H:i') }}</small>
+                <div class="card-body p-4 p-md-5">
+                    <div class="alert alert-info border-0 shadow-sm mb-5">
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <i class="bi bi-info-circle-fill"></i> 
+                                <strong>Total Votes Cast:</strong> {{ $totalVotes }}
+                            </div>
+                            <div class="col-md-6 text-md-end mt-2 mt-md-0">
+                                <small>
+                                    <i class="bi bi-calendar-range"></i> 
+                                    {{ $election->start_date->format('M d, Y H:i') }} - {{ $election->end_date->format('M d, Y H:i') }}
+                                </small>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
