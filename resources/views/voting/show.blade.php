@@ -3,19 +3,31 @@
 @section('title', $election->title)
 
 @section('content')
-<div class="container">
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-lg">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0"><i class="bi bi-ballot"></i> {{ $election->title }}</h4>
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg border-0">
+                <div class="card-header text-white py-4" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-ballot-fill me-3" style="font-size: 2.5rem;"></i>
+                        <div>
+                            <h3 class="mb-0">{{ $election->title }}</h3>
+                            <small class="opacity-75">Cast your secure vote</small>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <p class="lead">{{ $election->description }}</p>
-
-                    <div class="alert alert-info">
-                        <i class="bi bi-clock"></i> 
-                        Voting ends on {{ $election->end_date->format('F d, Y \a\t H:i') }}
+                <div class="card-body p-4 p-md-5">
+                    <div class="alert alert-info border-0 shadow-sm mb-4">
+                        <div class="d-flex align-items-start">
+                            <i class="bi bi-info-circle-fill me-3 mt-1" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <p class="mb-2 fw-bold">{{ $election->description }}</p>
+                                <p class="mb-0 small">
+                                    <i class="bi bi-clock-history"></i> 
+                                    Voting ends on {{ $election->end_date->format('F d, Y \a\t H:i') }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
 
                     @if($hasVoted)
