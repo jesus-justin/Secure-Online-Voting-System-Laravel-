@@ -151,12 +151,27 @@
         @yield('content')
     </main>
 
-    <footer class="bg-light py-4 mt-5">
-        <div class="container text-center text-muted">
-            <p>&copy; {{ date('Y') }} Secure Online Voting System. All rights reserved.</p>
-            <p class="small">
-                <i class="bi bi-shield-lock"></i> Secured with SHA-256 encryption & device fingerprinting
-            </p>
+    <footer class="bg-white border-top py-4 mt-5 shadow-sm">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                    <h5 class="mb-2 text-primary">
+                        <i class="bi bi-shield-check"></i> Secure Online Voting System
+                    </h5>
+                    <p class="text-muted small mb-0">
+                        &copy; {{ date('Y') }} All rights reserved. | Built with security in mind.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <p class="mb-0 text-muted">
+                        <i class="bi bi-shield-lock text-success"></i> 
+                        <strong>Secured with:</strong><br>
+                        <span class="badge bg-success me-1">SHA-256 Encryption</span>
+                        <span class="badge bg-info me-1">Device Fingerprinting</span>
+                        <span class="badge bg-primary">reCAPTCHA</span>
+                    </p>
+                </div>
+            </div>
         </div>
     </footer>
 
