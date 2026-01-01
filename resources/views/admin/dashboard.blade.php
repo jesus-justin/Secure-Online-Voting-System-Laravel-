@@ -16,40 +16,78 @@
     </div>
 
     <!-- Statistics Cards -->
-    <div class="row mb-4">
-        <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Elections</h5>
-                    <h2>{{ $totalElections }}</h2>
-                    <small>{{ $activeElections }} Active</small>
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="card-title opacity-75 mb-1">Total Elections</h6>
+                            <h2 class="mb-0 fw-bold display-6">{{ $totalElections }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-calendar-event" style="font-size: 1.8rem;"></i>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-top border-white border-opacity-25">
+                        <small class="opacity-75">{{ $activeElections }} Currently Active</small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Total Votes</h5>
-                    <h2>{{ $totalVotes }}</h2>
-                    <small>All verified votes</small>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="card-title opacity-75 mb-1">Total Votes</h6>
+                            <h2 class="mb-0 fw-bold display-6">{{ $totalVotes }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-check-circle" style="font-size: 1.8rem;"></i>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-top border-white border-opacity-25">
+                        <small class="opacity-75">All verified votes</small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Registered Users</h5>
-                    <h2>{{ $totalUsers }}</h2>
-                    <small>{{ $pendingVerifications }} Pending</small>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="card-title opacity-75 mb-1">Registered Users</h6>
+                            <h2 class="mb-0 fw-bold display-6">{{ $totalUsers }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-people" style="font-size: 1.8rem;"></i>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-top border-white border-opacity-25">
+                        <small class="opacity-75">{{ $pendingVerifications }} Pending</small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Pending Verifications</h5>
-                    <h2>{{ $pendingVerifications }}</h2>
-                    <a href="{{ route('admin.users') }}" class="text-white">View Users →</a>
+        <div class="col-md-6 col-lg-3">
+            <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);">
+                <div class="card-body text-white p-4">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h6 class="card-title opacity-75 mb-1">Pending Verifications</h6>
+                            <h2 class="mb-0 fw-bold display-6">{{ $pendingVerifications }}</h2>
+                        </div>
+                        <div class="bg-white bg-opacity-25 rounded-circle p-3">
+                            <i class="bi bi-hourglass-split" style="font-size: 1.8rem;"></i>
+                        </div>
+                    </div>
+                    <div class="pt-2 border-top border-white border-opacity-25">
+                        <a href="{{ route('admin.users') }}" class="text-white text-decoration-none">
+                            <small>View Users →</small>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
