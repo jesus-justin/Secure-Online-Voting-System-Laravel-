@@ -3,18 +3,25 @@
 @section('title', 'Register - Secure Voting')
 
 @section('content')
-<div class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-    <div class="container">
+<div class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); position: relative; overflow: hidden;">
+    <!-- Animated background elements -->
+    <div style="position: absolute; top: -10%; right: -5%; width: 350px; height: 350px; background: radial-gradient(circle, rgba(255,255,255,0.1), transparent); border-radius: 50%; animation: float 7s ease-in-out infinite;"></div>
+    <div style="position: absolute; bottom: -10%; left: -5%; width: 450px; height: 450px; background: radial-gradient(circle, rgba(255,255,255,0.08), transparent); border-radius: 50%; animation: float 9s ease-in-out infinite reverse;"></div>
+    
+    <div class="container position-relative">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow-lg border-0">
+            <div class="col-md-7">
+                <div class="card shadow-lg border-0" style="border-radius: 20px;">
                     <div class="card-body p-5">
                         <div class="text-center mb-5">
                             <div class="mb-3">
-                                <i class="bi bi-person-plus-fill text-success" style="font-size: 3rem;"></i>
+                                <div class="bg-success bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center shadow" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="bi bi-person-plus-fill text-white" style="font-size: 3rem;"></i>
+                                </div>
                             </div>
-                            <h2 class="card-title text-dark">Create Account</h2>
-                            <p class="text-muted">Join our secure voting platform</p>
+                            <h2 class="card-title text-dark fw-bold mb-2">Join Secure Voting</h2>
+                            <p class="text-muted">Create your account to participate in secure elections</p>
                         </div>
 
                         @if ($errors->any())
