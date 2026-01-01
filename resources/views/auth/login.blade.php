@@ -3,18 +3,25 @@
 @section('title', 'Login - Secure Voting')
 
 @section('content')
-<div class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
-    <div class="container">
+<div class="min-vh-100 d-flex align-items-center py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative; overflow: hidden;">
+    <!-- Animated background elements -->
+    <div style="position: absolute; top: -10%; left: -5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.1), transparent); border-radius: 50%; animation: float 6s ease-in-out infinite;"></div>
+    <div style="position: absolute; bottom: -10%; right: -5%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(255,255,255,0.08), transparent); border-radius: 50%; animation: float 8s ease-in-out infinite reverse;"></div>
+    
+    <div class="container position-relative">
         <div class="row justify-content-center">
             <div class="col-md-5">
-                <div class="card shadow-lg border-0">
+                <div class="card shadow-lg border-0" style="border-radius: 20px; backdrop-filter: blur(10px);">
                     <div class="card-body p-5">
                         <div class="text-center mb-5">
-                            <div class="mb-3">
-                                <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
+                            <div class="mb-3 position-relative">
+                                <div class="bg-primary bg-gradient rounded-circle d-inline-flex align-items-center justify-content-center shadow" 
+                                     style="width: 80px; height: 80px;">
+                                    <i class="bi bi-shield-check text-white" style="font-size: 3rem;"></i>
+                                </div>
                             </div>
-                            <h2 class="card-title text-dark">Secure Voting</h2>
-                            <p class="text-muted">Sign in to your account</p>
+                            <h2 class="card-title text-dark fw-bold mb-2">Welcome Back</h2>
+                            <p class="text-muted">Sign in to access your secure voting account</p>
                         </div>
 
                         @if ($errors->any())
