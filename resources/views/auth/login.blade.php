@@ -39,18 +39,21 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('login') }}" id="loginForm">
+                        <form method="POST" action="{{ route('login') }}" id="loginForm" 
+                              aria-label="Login form" novalidate>
                             @csrf
 
                             <div class="mb-4">
                                 <label for="email" class="form-label fw-bold">Email Address</label>
                                 <div class="input-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
-                                    <span class="input-group-text bg-light border-0 px-4">
+                                    <span class="input-group-text bg-light border-0 px-4" aria-hidden="true">
                                         <i class="bi bi-envelope-fill text-primary"></i>
                                     </span>
                                     <input type="email" class="form-control form-control-lg border-0 @error('email') is-invalid @enderror" 
                                            id="email" name="email" value="{{ old('email') }}" 
                                            placeholder="Enter your email" required autofocus
+                                           aria-describedby="emailHelp" 
+                                           aria-invalid="{{ $errors->has('email') ? 'true' : 'false' }}"
                                            style="padding: 0.75rem 1rem;">
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -61,13 +64,18 @@
                             <div class="mb-4">
                                 <label for="password" class="form-label fw-bold">Password</label>
                                 <div class="input-group shadow-sm" style="border-radius: 10px; overflow: hidden;">
-                                    <span class="input-group-text bg-light border-0 px-4">
+                                    <span class="input-group-text bg-light border-0 px-4" aria-hidden="true">
                                         <i class="bi bi-lock-fill text-primary"></i>
                                     </span>
                                     <input type="password" class="form-control form-control-lg border-0 @error('password') is-invalid @enderror" 
                                            id="password" name="password" placeholder="Enter your password" required
+                                           aria-describedby="passwordHelp"
+                                           aria-invalid="{{ $errors->has('password') ? 'true' : 'false' }}"
                                            style="padding: 0.75rem 1rem;">
-                                    <button class="btn btn-outline-secondary border-0 px-4 bg-light" type="button" id="togglePassword" aria-label="Toggle password visibility">
+                                    <button class="btn btn-outline-secondary border-0 px-4 bg-light" type="button" 
+                                            id="togglePassword" 
+                                            aria-label="Show password"
+                                            aria-pressed="false">
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                     @error('password')
@@ -85,8 +93,10 @@
 
                             <input type="hidden" name="recaptcha_token" id="recaptcha_token">
 
-                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 fw-bold">
-                                <i class="bi bi-box-arrow-in-right"></i> Sign In
+                            <button type="submit" class="btn btn-primary btn-lg w-100 mb-3 fw-bold"
+                                    aria-label="Sign in to your account">
+                                <i class="bi bi-box-arrow-in-right" aria-hidden="true"></i> 
+                                <span>Sign In</span>
                             </button>
                         </form>
 
@@ -120,6 +130,34 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+// Password visibility toggle
+const togglePassword = document.getElementById('togglePassword');
+const passwordField = document.getElementById('password');
+
+if (togglePassword && passwordField) {
+    togglePassword.addEventListener('click', function() {
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        
+        const icon = this.querySelector('i');
+        if (type === 'text') {
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+            this.setAttribute('aria-label', 'Hide password');
+            this.setAttribute('aria-pressed', 'true');
+        } else {
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
+            this.setAttribute('aria-label', 'Show password');
+            this.setAttribute('aria-pressed', 'false');
+        }
+    });
+}
+</script>
+@endpush
 
 @push('scripts')
 <script>
