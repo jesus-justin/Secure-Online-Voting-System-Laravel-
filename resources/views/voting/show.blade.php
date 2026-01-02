@@ -45,12 +45,16 @@
                             </a>
                         </div>
                     @else
-                        <form method="POST" action="{{ route('voting.vote', $election) }}" id="voteForm">
+                        <form method="POST" action="{{ route('voting.vote', $election) }}" id="voteForm" 
+                              aria-label="Vote submission form" novalidate>
                             @csrf
 
                             <h5 class="mb-4 fw-bold text-center" style="font-size: 1.3rem;">
-                                <i class="bi bi-person-check-fill text-primary"></i> Select Your Candidate
+                                <i class="bi bi-person-check-fill text-primary" aria-hidden="true"></i> 
+                                <span>Select Your Candidate</span>
                             </h5>
+                            
+                            <div role="radiogroup" aria-label="Candidate selection" aria-required="true">
 
                             <div class="row g-4">
                                 @foreach($candidates as $candidate)
@@ -93,12 +97,19 @@
                                     </div>
                                 @endforeach
                             </div>
+                            </div>
 
                             <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+                            
+                            <div id="candidateError" class="invalid-feedback d-block text-center" style="display: none !important;" role="alert">
+                                Please select a candidate before submitting your vote.
+                            </div>
 
                             <div class="d-grid gap-2 mt-5">
-                                <button type="submit" class="btn btn-primary btn-lg py-3 shadow">
-                                    <i class="bi bi-send-check-fill"></i> Cast Your Vote Securely
+                                <button type="submit" class="btn btn-primary btn-lg py-3 shadow" 
+                                        aria-label="Cast your vote securely">
+                                    <i class="bi bi-send-check-fill" aria-hidden="true"></i> 
+                                    <span>Cast Your Vote Securely</span>
                                 </button>
                                 <a href="{{ route('voting.index') }}" class="btn btn-outline-secondary">
                                     <i class="bi bi-arrow-left"></i> Back to Elections
@@ -117,11 +128,67 @@
 <script>
 const voteForm = document.getElementById('voteForm');
 if (voteForm) {
+    // Add change event listeners to candidate cards
+    const candidateCards = voteForm.querySelectorAll('.candidate-card');
+    candidateCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const radio = this.querySelector('input[type="radio"]');
+            if (radio) {
+                radio.checked = true;
+                // Remove error state when candidate is selected
+                const errorDiv = document.getElementById('candidateError');
+                if (errorDiv) {
+                    errorDiv.style.display = 'none';
+                }
+            }
+        });
+        
+        // Add keyboard support
+        card.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                const radio = this.querySelector('input[type="radio"]');
+                if (radio) {
+                    radio.checked = true;
+                    radio.focus();
+                }
+            }
+        });
+        
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+    });
+    
     voteForm.addEventListener('submit', function(e) {
-        if (!confirm('Are you sure you want to cast this vote? This action cannot be undone.')) {
-            e.preventDefault();
+        e.preventDefault();
+        
+        // Check if a candidate is selected
+        const selectedCandidate = this.querySelector('input[name="candidate_id"]:checked');
+        const errorDiv = document.getElementById('candidateError');
+        
+        if (!selectedCandidate) {
+            if (errorDiv) {
+                errorDiv.style.display = 'block';
+                errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            showToast('Please select a candidate before submitting your vote.', 'warning');
+            return;
         }
-        // Form will submit normally - recaptcha disabled for now
+        
+        // Confirm vote
+        if (confirm('Are you sure you want to cast this vote? This action cannot be undone.')) {
+            // Show loading state
+            setFormLoading(this, true);
+            
+            // Get selected candidate name
+            const candidateName = selectedCandidate.closest('.candidate-card').querySelector('.card-title').textContent;
+            
+            // Show confirmation toast
+            showToast('Submitting your vote for ' + candidateName + '...', 'info');
+            
+            // Submit the form
+            this.submit();
+        }
     });
 }
 </script>
