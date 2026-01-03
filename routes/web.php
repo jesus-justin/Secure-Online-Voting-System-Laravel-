@@ -44,6 +44,11 @@ Route::middleware('auth')->group(function () {
         ->name('voting.vote');
     Route::get('/elections/{election}/success', [VotingController::class, 'success'])->name('voting.success');
     Route::get('/elections/{election}/results', [VotingController::class, 'results'])->name('voting.results');
+    
+    // Notifications
+    Route::get('/notifications', function () {
+        return view('notifications.index');
+    })->name('notifications.index');
 
     // Admin routes
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {

@@ -111,6 +111,9 @@
                                 <span class="d-none d-md-inline">Elections</span>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            @include('components.notification-bell')
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle me-1"></i> 
