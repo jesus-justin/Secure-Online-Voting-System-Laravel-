@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Secure Voting">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    
     <title>@yield('title', 'Secure Voting System')</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -114,6 +122,12 @@
                         <li class="nav-item">
                             @include('components.notification-bell')
                         </li>
+                        <li class="nav-item">
+                            <button class="nav-link btn btn-link px-3" id="themeToggle" aria-label="Toggle theme">
+                                <i class="bi bi-moon-stars-fill" id="themeIcon"></i>
+                                <span class="d-none d-lg-inline ms-1" id="themeText">Dark</span>
+                            </button>
+                        </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle px-3" href="#" role="button" data-bs-toggle="dropdown">
                                 <i class="bi bi-person-circle me-1"></i> 
@@ -123,6 +137,17 @@
                                 <li class="px-3 py-2 border-bottom">
                                     <small class="text-muted">Voter ID: {{ auth()->user()->voter_id }}</small>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="{{ route('profile.show') }}">
+                                        <i class="bi bi-person-circle me-2"></i> My Profile
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="{{ route('profile.edit') }}">
+                                        <i class="bi bi-gear me-2"></i> Settings
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
@@ -459,6 +484,85 @@
     window.showToast = showToast;
     window.setFormLoading = setFormLoading;
     window.validateField = validateField;
+    
+    // ===== DARK MODE THEME TOGGLE =====
+    (function() {
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const html = document.documentElement;
+        
+        // Get saved theme or default to light
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateThemeUI(currentTheme);
+        
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const newTheme = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeUI(newTheme);
+                
+                // Show toast notification
+                showToast(`Switched to ${newTheme} mode`, 'success');
+            });
+        }
+        
+        function updateThemeUI(theme) {
+            if (theme === 'dark') {
+                if (themeIcon) themeIcon.className = 'bi bi-sun-fill';
+                if (themeText) themeText.textContent = 'Light';
+            } else {
+                if (themeIcon) themeIcon.className = 'bi bi-moon-stars-fill';
+                if (themeText) themeText.textContent = 'Dark';
+            }
+        }
+    })();
+    
+    // Service Worker Registration (PWA)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('{{ asset('sw.js') }}')
+                .then(registration => {
+                    console.log('ServiceWorker registered:', registration.scope);
+                    
+                    // Check for updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New service worker available
+                                if (confirm('New version available! Reload to update?')) {
+                                    window.location.reload();
+                                }
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.log('ServiceWorker registration failed:', error);
+                });
+                
+            // Handle service worker messages
+            navigator.serviceWorker.addEventListener('message', event => {
+                if (event.data && event.data.type === 'NOTIFICATION') {
+                    showToast(event.data.message, event.data.status || 'info');
+                }
+            });
+        });
+        
+        // Request notification permission
+        if ('Notification' in window && Notification.permission === 'default') {
+            setTimeout(() => {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        showToast('Notifications enabled!', 'success');
+                    }
+                });
+            }, 5000); // Ask after 5 seconds
+        }
+    }
     </script>
     
     @stack('scripts')
