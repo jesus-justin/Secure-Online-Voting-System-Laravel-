@@ -205,5 +205,399 @@
             </div>
         </div>
     </div>
+
+    <!-- Analytics Charts -->
+    <div class="row g-4 mb-4">
+        <!-- Votes Over Time Chart -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 fw-bold">
+                            <i class="bi bi-graph-up text-primary"></i> Voting Activity (Last 30 Days)
+                        </h5>
+                        <button class="btn btn-sm btn-outline-primary" onclick="exportChartData('votesOverTime')">
+                            <i class="bi bi-download"></i> Export
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-4">
+                    <canvas id="votesOverTimeChart" style="height: 300px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-heart-pulse text-danger"></i> System Health
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Database</span>
+                            <span class="badge bg-success">
+                                <i class="bi bi-check-circle-fill"></i> Healthy
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-success" style="width: 100%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Storage</span>
+                            <span class="badge bg-{{ $systemHealth['storage'] > 20 ? 'success' : 'warning' }}">
+                                {{ $systemHealth['storage'] }}% Free
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-{{ $systemHealth['storage'] > 20 ? 'success' : 'warning' }}" 
+                                 style="width: {{ $systemHealth['storage'] }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Vote Integrity</span>
+                            <span class="badge bg-{{ $systemHealth['tampered_votes'] == 0 ? 'success' : 'danger' }}">
+                                {{ $systemHealth['tampered_votes'] }} Tampered
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-{{ $systemHealth['tampered_votes'] == 0 ? 'success' : 'danger' }}" 
+                                 style="width: {{ $systemHealth['tampered_votes'] == 0 ? 100 : 50 }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-0">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="text-muted">Verification Rate</span>
+                            <span class="badge bg-info">
+                                {{ $systemHealth['failed_verifications'] }} Failed
+                            </span>
+                        </div>
+                        <div class="progress" style="height: 6px;">
+                            <div class="progress-bar bg-info" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Peak Voting Times & Participation -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-clock text-warning"></i> Peak Voting Times (24-Hour)
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <canvas id="peakTimesChart" style="height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-pie-chart text-success"></i> Participation Rate by Election
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <canvas id="participationChart" style="height: 250px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity Feed -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0 fw-bold">
+                        <i class="bi bi-activity text-info"></i> Recent Activity Feed
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="activity-feed" style="max-height: 400px; overflow-y: auto;">
+                        @forelse($recentActivity as $activity)
+                            <div class="activity-item d-flex align-items-start mb-3 pb-3 border-bottom">
+                                <div class="activity-icon me-3">
+                                    @php
+                                        $iconClass = match($activity->action) {
+                                            'vote_cast' => 'bi-check-circle-fill text-success',
+                                            'vote_verified' => 'bi-shield-check text-primary',
+                                            'vote_tampered' => 'bi-exclamation-triangle-fill text-danger',
+                                            'verification_failed' => 'bi-x-circle text-warning',
+                                            default => 'bi-circle text-secondary'
+                                        };
+                                    @endphp
+                                    <i class="bi {{ $iconClass }}" style="font-size: 1.5rem;"></i>
+                                </div>
+                                <div class="activity-content flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div>
+                                            <h6 class="mb-1">
+                                                @switch($activity->action)
+                                                    @case('vote_cast')
+                                                        Vote Cast
+                                                        @break
+                                                    @case('vote_verified')
+                                                        Vote Verified
+                                                        @break
+                                                    @case('vote_tampered')
+                                                        Tampering Detected
+                                                        @break
+                                                    @case('verification_failed')
+                                                        Verification Failed
+                                                        @break
+                                                    @default
+                                                        {{ ucfirst(str_replace('_', ' ', $activity->action)) }}
+                                                @endswitch
+                                            </h6>
+                                            <p class="text-muted small mb-0">
+                                                <strong>{{ $activity->user?->voter_id ?? 'System' }}</strong> - 
+                                                {{ $activity->election?->title ?? 'Unknown Election' }}
+                                            </p>
+                                            @if($activity->details)
+                                                <p class="text-muted small mb-0">{{ $activity->details }}</p>
+                                            @endif
+                                        </div>
+                                        <small class="text-muted">{{ $activity->created_at->diffForHumans() }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                <p class="mt-2">No recent activity</p>
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Votes Over Time Chart
+    const votesOverTimeData = @json($votesOverTime);
+    const votesOverTimeCtx = document.getElementById('votesOverTimeChart').getContext('2d');
+    new Chart(votesOverTimeCtx, {
+        type: 'line',
+        data: {
+            labels: votesOverTimeData.map(d => d.date),
+            datasets: [{
+                label: 'Votes',
+                data: votesOverTimeData.map(d => d.count),
+                borderColor: '#667eea',
+                backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.4,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                pointBackgroundColor: '#667eea'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    titleFont: {
+                        size: 14
+                    },
+                    bodyFont: {
+                        size: 13
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Peak Voting Times Chart
+    const votingActivityData = @json($votingActivity);
+    const peakTimesCtx = document.getElementById('peakTimesChart').getContext('2d');
+    
+    // Fill missing hours with 0
+    const hourlyData = Array(24).fill(0);
+    votingActivityData.forEach(d => {
+        hourlyData[d.hour] = d.count;
+    });
+    
+    new Chart(peakTimesCtx, {
+        type: 'bar',
+        data: {
+            labels: Array.from({length: 24}, (_, i) => `${i}:00`),
+            datasets: [{
+                label: 'Votes per Hour',
+                data: hourlyData,
+                backgroundColor: 'rgba(255, 193, 7, 0.6)',
+                borderColor: '#ffc107',
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            }
+        }
+    });
+
+    // Participation Rate Chart
+    const participationData = @json($participationRates);
+    const participationCtx = document.getElementById('participationChart').getContext('2d');
+    
+    new Chart(participationCtx, {
+        type: 'doughnut',
+        data: {
+            labels: participationData.map(d => d.election),
+            datasets: [{
+                data: participationData.map(d => d.rate),
+                backgroundColor: [
+                    'rgba(102, 126, 234, 0.8)',
+                    'rgba(17, 153, 142, 0.8)',
+                    'rgba(79, 172, 254, 0.8)',
+                    'rgba(250, 112, 154, 0.8)',
+                    'rgba(255, 193, 7, 0.8)',
+                    'rgba(156, 39, 176, 0.8)'
+                ],
+                borderWidth: 3,
+                borderColor: '#ffffff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        padding: 15,
+                        font: {
+                            size: 12
+                        },
+                        generateLabels: function(chart) {
+                            const data = chart.data;
+                            return data.labels.map((label, i) => ({
+                                text: `${label} (${data.datasets[0].data[i]}%)`,
+                                fillStyle: data.datasets[0].backgroundColor[i],
+                                hidden: false,
+                                index: i
+                            }));
+                        }
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    padding: 12,
+                    callbacks: {
+                        label: function(context) {
+                            const election = participationData[context.dataIndex];
+                            return [
+                                `Participation: ${election.rate}%`,
+                                `Votes: ${election.votes}`
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+    });
+});
+
+// Export chart data to CSV
+function exportChartData(chartType) {
+    let data, filename;
+    
+    if (chartType === 'votesOverTime') {
+        data = @json($votesOverTime);
+        filename = 'votes_over_time.csv';
+        
+        let csv = 'Date,Votes\n';
+        data.forEach(row => {
+            csv += `${row.date},${row.count}\n`;
+        });
+        
+        downloadCSV(csv, filename);
+    }
+}
+
+function downloadCSV(csv, filename) {
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('hidden', '');
+    a.setAttribute('href', url);
+    a.setAttribute('download', filename);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    showToast('Export successful!', 'success');
+}
+</script>
+@endpush
+
 @endsection

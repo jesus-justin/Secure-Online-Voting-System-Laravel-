@@ -33,6 +33,46 @@ class AdminController extends Controller
             ->take(10)
             ->get();
 
+        // Analytics data for charts
+        $votesOverTime = Vote::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->where('created_at', '>=', now()->subDays(30))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $votingActivity = Vote::selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            ->where('created_at', '>=', now()->subDays(7))
+            ->groupBy('hour')
+            ->orderBy('hour')
+            ->get();
+
+        // Participation rate by election
+        $participationRates = Election::withCount('votes')
+            ->where('end_time', '<=', now())
+            ->get()
+            ->map(function ($election) {
+                $eligibleVoters = User::where('is_verified', true)->count();
+                return [
+                    'election' => $election->title,
+                    'rate' => $eligibleVoters > 0 ? round(($election->votes_count / $eligibleVoters) * 100, 2) : 0,
+                    'votes' => $election->votes_count,
+                ];
+            });
+
+        // System health metrics
+        $systemHealth = [
+            'database' => 'healthy',
+            'storage' => round((disk_free_space('/') / disk_total_space('/')) * 100, 2),
+            'tampered_votes' => Vote::where('is_tampered', true)->count(),
+            'failed_verifications' => VoteLog::where('action', 'verification_failed')->count(),
+        ];
+
+        // Recent activity feed
+        $recentActivity = VoteLog::with('user', 'election')
+            ->latest()
+            ->take(15)
+            ->get();
+
         return view('admin.dashboard', compact(
             'totalElections',
             'activeElections',
@@ -40,7 +80,12 @@ class AdminController extends Controller
             'totalUsers',
             'pendingVerifications',
             'recentElections',
-            'recentVotes'
+            'recentVotes',
+            'votesOverTime',
+            'votingActivity',
+            'participationRates',
+            'systemHealth',
+            'recentActivity'
         ));
     }
 
