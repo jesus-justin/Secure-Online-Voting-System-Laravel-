@@ -3,6 +3,7 @@
 use App\Http\Controllers\VotingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // Landing page (accessible to everyone)
@@ -49,6 +50,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/notifications', function () {
         return view('notifications.index');
     })->name('notifications.index');
+    
+    // Profile Routes
+    Route::prefix('profile')->name('profile.')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('show');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
+        Route::put('/update', [ProfileController::class, 'update'])->name('update');
+        Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password');
+        Route::post('/avatar', [ProfileController::class, 'updateAvatar'])->name('avatar');
+        Route::get('/avatar/delete', [ProfileController::class, 'deleteAvatar'])->name('avatar.delete');
+    });
 
     // Admin routes
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
