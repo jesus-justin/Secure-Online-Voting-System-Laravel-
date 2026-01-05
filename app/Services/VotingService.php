@@ -50,6 +50,7 @@ class VotingService
                 'encrypted_vote' => $encryptedVote,
                 'ip_address' => $ipAddress,
                 'device_fingerprint' => $deviceFingerprint,
+                'created_at' => $timestamp,
             ]);
 
             // Log the successful vote
@@ -59,7 +60,9 @@ class VotingService
                 'success',
                 $ipAddress,
                 $deviceFingerprint,
-                ['vote_id' => $vote->id]
+                ['vote_id' => $vote->id],
+                $vote->id,
+                $userAgent
             );
 
             return $vote;
@@ -99,7 +102,9 @@ class VotingService
                     'failed',
                     $ipAddress,
                     null,
-                    ['reason' => 'IP address already voted']
+                    ['reason' => 'IP address already voted'],
+                    null,
+                    $request->userAgent()
                 );
                 $errors[] = 'A vote has already been cast from this IP address';
             }
@@ -119,7 +124,9 @@ class VotingService
                     'failed',
                     $request->ip(),
                     $deviceFingerprint,
-                    ['reason' => 'Device already voted']
+                    ['reason' => 'Device already voted'],
+                    null,
+                    $request->userAgent()
                 );
                 $errors[] = 'A vote has already been cast from this device';
             }
@@ -142,7 +149,8 @@ class VotingService
                     'tampered',
                     $vote->ip_address,
                     $vote->device_fingerprint,
-                    ['vote_id' => $vote->id, 'vote_hash' => $vote->vote_hash]
+                    ['vote_id' => $vote->id, 'vote_hash' => $vote->vote_hash],
+                    $vote->id
                 );
             }
         }

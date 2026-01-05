@@ -37,7 +37,8 @@ class ProcessVote implements ShouldQueue
                 [
                     'vote_id' => $vote->id,
                     'reason' => 'Failed integrity check during processing'
-                ]
+                ],
+                $vote->id
             );
         }
 
