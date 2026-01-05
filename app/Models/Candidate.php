@@ -13,7 +13,7 @@ class Candidate extends Model
         'election_id',
         'name',
         'description',
-        'photo',
+        'image_url',
         'position',
     ];
 

@@ -16,16 +16,12 @@ class Election extends Model
         'status',
         'start_date',
         'end_date',
-        'is_active',
-        'allow_anonymous',
-        'max_votes_per_user',
+        'created_by',
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
-        'is_active' => 'boolean',
-        'allow_anonymous' => 'boolean',
         'status' => 'string',
     ];
 
@@ -52,9 +48,11 @@ class Election extends Model
     public function isActive()
     {
         $now = Carbon::now();
-        return $this->status === 'active'
-            && $this->start_date <= $now
-            && $this->end_date >= $now;
+        if ($this->start_date && $this->end_date) {
+            return $this->start_date <= $now && $this->end_date >= $now;
+        }
+
+        return $this->status === 'active';
     }
 
     public function hasStarted()
