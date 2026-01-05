@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Vote;
 use App\Models\VoteLog;
 use App\Services\VotingService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +23,9 @@ class AdminController extends Controller
     public function dashboard()
     {
         $totalElections = Election::count();
-        $activeElections = Election::where('status', 'active')->count();
+        $activeElections = Election::where('start_date', '<=', now())
+            ->where('end_date', '>=', now())
+            ->count();
         $totalVotes = Vote::count();
         $totalUsers = User::where('is_admin', false)->count();
         $pendingVerifications = User::where('is_verified', false)->count();
@@ -48,7 +51,7 @@ class AdminController extends Controller
 
         // Participation rate by election
         $participationRates = Election::withCount('votes')
-            ->where('end_time', '<=', now())
+            ->where('end_date', '<=', now())
             ->get()
             ->map(function ($election) {
                 $eligibleVoters = User::where('is_verified', true)->count();
@@ -106,13 +109,20 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'start_time' => 'required|date|after:now',
-            'end_time' => 'required|date|after:start_time',
-            'max_votes_per_user' => 'required|integer|min:1',
-            'allow_anonymous' => 'boolean',
+            'start_date' => 'required|date|after:now',
+            'end_date' => 'required|date|after:start_date',
         ]);
 
-        $election = Election::create($request->all());
+        $status = $this->determineStatus($request->date('start_date'), $request->date('end_date'));
+
+        $election = Election::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start_date' => $request->date('start_date'),
+            'end_date' => $request->date('end_date'),
+            'status' => $status,
+            'created_by' => $request->user()->id,
+        ]);
 
         return redirect()->route('admin.elections.edit', $election)
             ->with('success', 'Election created successfully!');
@@ -129,14 +139,19 @@ class AdminController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'start_time' => 'required|date',
-            'end_time' => 'required|date|after:start_time',
-            'max_votes_per_user' => 'required|integer|min:1',
-            'is_active' => 'boolean',
-            'allow_anonymous' => 'boolean',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after:start_date',
         ]);
 
-        $election->update($request->all());
+        $status = $this->determineStatus($request->date('start_date'), $request->date('end_date'));
+
+        $election->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'start_date' => $request->date('start_date'),
+            'end_date' => $request->date('end_date'),
+            'status' => $status,
+        ]);
 
         return back()->with('success', 'Election updated successfully!');
     }
@@ -161,7 +176,7 @@ class AdminController extends Controller
         $data = $request->except('photo');
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('candidates', 'public');
+            $data['image_url'] = $request->file('photo')->store('candidates', 'public');
         }
 
         $election->candidates()->create($data);
@@ -181,10 +196,10 @@ class AdminController extends Controller
         $data = $request->except('photo');
 
         if ($request->hasFile('photo')) {
-            if ($candidate->photo) {
-                Storage::disk('public')->delete($candidate->photo);
+            if ($candidate->image_url) {
+                Storage::disk('public')->delete($candidate->image_url);
             }
-            $data['photo'] = $request->file('photo')->store('candidates', 'public');
+            $data['image_url'] = $request->file('photo')->store('candidates', 'public');
         }
 
         $candidate->update($data);
@@ -194,8 +209,8 @@ class AdminController extends Controller
 
     public function deleteCandidate(Candidate $candidate)
     {
-        if ($candidate->photo) {
-            Storage::disk('public')->delete($candidate->photo);
+        if ($candidate->image_url) {
+            Storage::disk('public')->delete($candidate->image_url);
         }
 
         $candidate->delete();
@@ -238,9 +253,13 @@ class AdminController extends Controller
     }
 
     // Vote Logs & Security
-    public function voteLogs(Election $election = null)
+    public function voteLogs(Request $request, Election $election = null)
     {
         $query = VoteLog::with(['election', 'user']);
+
+        if (!$election && $request->filled('election')) {
+            $election = Election::find($request->integer('election'));
+        }
 
         if ($election) {
             $query->where('election_id', $election->id);
@@ -266,5 +285,20 @@ class AdminController extends Controller
         $voteLogs = $election->voteLogs()->orderBy('performed_at', 'desc')->take(20)->get();
 
         return view('admin.elections.results', compact('election', 'results', 'totalVotes', 'voteLogs'));
+    }
+
+    private function determineStatus(?Carbon $startDate, ?Carbon $endDate): string
+    {
+        $now = Carbon::now();
+
+        if ($endDate && $endDate->isPast()) {
+            return 'completed';
+        }
+
+        if ($startDate && $startDate->isFuture()) {
+            return 'pending';
+        }
+
+        return 'active';
     }
 }
