@@ -30,8 +30,8 @@
                         @forelse($elections as $election)
                             <tr>
                                 <td><strong>{{ $election->title }}</strong></td>
-                                <td>{{ $election->start_time->format('M d, Y H:i') }}</td>
-                                <td>{{ $election->end_time->format('M d, Y H:i') }}</td>
+                                <td>{{ optional($election->start_date)->format('M d, Y H:i') }}</td>
+                                <td>{{ optional($election->end_date)->format('M d, Y H:i') }}</td>
                                 <td>
                                     @if($election->isActive())
                                         <span class="badge bg-success">Active</span>

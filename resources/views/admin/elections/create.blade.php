@@ -31,40 +31,22 @@
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="start_time" class="form-label">Start Date & Time</label>
-                        <input type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" 
-                               id="start_time" name="start_time" value="{{ old('start_time') }}" required>
-                        @error('start_time')
+                        <label for="start_date" class="form-label">Start Date & Time</label>
+                        <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror" 
+                               id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+                        @error('start_date')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="end_time" class="form-label">End Date & Time</label>
-                        <input type="datetime-local" class="form-control @error('end_time') is-invalid @enderror" 
-                               id="end_time" name="end_time" value="{{ old('end_time') }}" required>
-                        @error('end_time')
+                        <label for="end_date" class="form-label">End Date & Time</label>
+                        <input type="datetime-local" class="form-control @error('end_date') is-invalid @enderror" 
+                               id="end_date" name="end_date" value="{{ old('end_date') }}" required>
+                        @error('end_date')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="max_votes_per_user" class="form-label">Max Votes Per User</label>
-                    <input type="number" class="form-control @error('max_votes_per_user') is-invalid @enderror" 
-                           id="max_votes_per_user" name="max_votes_per_user" value="{{ old('max_votes_per_user', 1) }}" 
-                           min="1" required>
-                    @error('max_votes_per_user')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="allow_anonymous" 
-                           name="allow_anonymous" {{ old('allow_anonymous') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="allow_anonymous">
-                        Allow Anonymous Voting
-                    </label>
                 </div>
 
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">

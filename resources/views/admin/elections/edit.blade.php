@@ -37,29 +37,23 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="start_time" class="form-label">Start Time</label>
-                            <input type="datetime-local" class="form-control @error('start_time') is-invalid @enderror" 
-                                   id="start_time" name="start_time" 
-                                   value="{{ old('start_time', $election->start_time->format('Y-m-d\TH:i')) }}" required>
-                            @error('start_time')
+                            <label for="start_date" class="form-label">Start Time</label>
+                            <input type="datetime-local" class="form-control @error('start_date') is-invalid @enderror" 
+                                   id="start_date" name="start_date" 
+                                   value="{{ old('start_date', optional($election->start_date)->format('Y-m-d\TH:i')) }}" required>
+                            @error('start_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="mb-3">
-                            <label for="end_time" class="form-label">End Time</label>
-                            <input type="datetime-local" class="form-control @error('end_time') is-invalid @enderror" 
-                                   id="end_time" name="end_time" 
-                                   value="{{ old('end_time', $election->end_time->format('Y-m-d\TH:i')) }}" required>
-                            @error('end_time')
+                            <label for="end_date" class="form-label">End Time</label>
+                            <input type="datetime-local" class="form-control @error('end_date') is-invalid @enderror" 
+                                   id="end_date" name="end_date" 
+                                   value="{{ old('end_date', optional($election->end_date)->format('Y-m-d\TH:i')) }}" required>
+                            @error('end_date')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
-                        </div>
-
-                        <div class="mb-3 form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="is_active" 
-                                   name="is_active" {{ old('is_active', $election->is_active) ? 'checked' : '' }}>
-                            <label class="form-check-label" for="is_active">Active</label>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Update Election</button>
