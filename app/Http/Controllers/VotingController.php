@@ -20,10 +20,8 @@ class VotingController extends Controller
 
     public function index()
     {
-        $elections = Election::where('status', 'active')
-            ->where('start_date', '<=', now())
-            ->where('end_date', '>=', now())
-            ->with('candidates')
+        $elections = Election::with('candidates')
+            ->orderBy('start_date', 'desc')
             ->get();
 
         return view('voting.index', compact('elections'));
@@ -73,7 +71,9 @@ class VotingController extends Controller
                 'failed',
                 $request->ip(),
                 null,
-                ['reason' => 'reCAPTCHA verification failed']
+                ['reason' => 'reCAPTCHA verification failed'],
+                null,
+                $request->userAgent()
             );
             return back()->with('error', 'reCAPTCHA verification failed. Please try again.');
         }
@@ -108,7 +108,9 @@ class VotingController extends Controller
                 'failed',
                 $request->ip(),
                 null,
-                ['reason' => $e->getMessage()]
+                ['reason' => $e->getMessage()],
+                null,
+                $request->userAgent()
             );
 
             return back()->with('error', 'An error occurred while recording your vote. Please try again.');
