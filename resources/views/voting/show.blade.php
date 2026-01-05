@@ -63,9 +63,9 @@
                                             <div class="card candidate-card h-100 border-2 position-relative" 
                                                  style="cursor: pointer; transition: all 0.3s ease;">
                                                 <div class="card-body p-4">
-                                                    @if($candidate->photo)
+                                                    @if($candidate->image_url)
                                                         <div class="text-center mb-3">
-                                                            <img src="{{ asset('storage/' . $candidate->photo) }}" 
+                                                            <img src="{{ asset('storage/' . $candidate->image_url) }}" 
                                                                  class="img-fluid rounded-circle shadow" 
                                                                  alt="{{ $candidate->name }}"
                                                                  style="width: 120px; height: 120px; object-fit: cover;">

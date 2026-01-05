@@ -71,8 +71,8 @@
                                 <i class="bi bi-pie-chart-fill"></i> Pie Chart
                             </label>
                             
-                            <input type="radio" class="btn-check" name="viewType" id="tableView" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="tableView" onclick="showView('table')">
+                            <input type="radio" class="btn-check" name="viewType" id="tableViewOption" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="tableViewOption" onclick="showView('table')">
                                 <i class="bi bi-table"></i> Table View
                             </label>
                         </div>

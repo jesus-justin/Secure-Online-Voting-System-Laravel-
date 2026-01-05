@@ -83,7 +83,7 @@
             <div class="col-md-6 col-lg-4 election-item" 
                  data-name="{{ strtolower($election->title) }}" 
                  data-status="{{ $election->isActive() ? 'active' : ($election->hasEnded() ? 'ended' : 'upcoming') }}"
-                 data-date="{{ $election->start_time ? $election->start_time->timestamp : 0 }}"
+                 data-date="{{ $election->start_date ? $election->start_date->timestamp : 0 }}"
                  data-votes="{{ $election->total_votes }}">
                 <div class="card h-100 card-hover shadow">
                     <div class="card-body p-4">
@@ -99,20 +99,20 @@
                         <div class="mb-4">
                             <div class="d-flex align-items-center text-muted small mb-2">
                                 <i class="bi bi-calendar-event me-2 text-primary" aria-hidden="true"></i> 
-                                <span>{{ $election->start_time ? $election->start_time->format('M d, Y') : 'N/A' }}</span>
+                                <span>{{ $election->start_date ? $election->start_date->format('M d, Y') : 'N/A' }}</span>
                             </div>
-                            @if($election->isActive() && $election->end_time)
+                            @if($election->isActive() && $election->end_date)
                                 <div class="alert alert-warning border-0 py-2 px-3 mb-2" style="font-size: 0.875rem;">
                                     <i class="bi bi-hourglass-split" aria-hidden="true"></i> 
                                     <strong>Ends in:</strong> 
                                     <span class="countdown" 
-                                          data-end="{{ $election->end_time->toIso8601String() }}"
+                                          data-end="{{ $election->end_date->toIso8601String() }}"
                                           aria-live="polite"></span>
                                 </div>
                             @else
                                 <div class="d-flex align-items-center text-muted small">
                                     <i class="bi bi-clock me-2 text-primary" aria-hidden="true"></i> 
-                                    <span>Ends: {{ $election->end_time ? $election->end_time->format('M d, h:i A') : 'N/A' }}</span>
+                                    <span>Ends: {{ $election->end_date ? $election->end_date->format('M d, h:i A') : 'N/A' }}</span>
                                 </div>
                             @endif
                         </div>
