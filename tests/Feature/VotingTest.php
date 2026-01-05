@@ -15,9 +15,13 @@ class VotingTest extends TestCase
     public function test_user_can_view_active_elections()
     {
         $user = User::factory()->create(['is_verified' => true]);
-        $election = Election::factory()->create(['is_active' => true]);
+        $election = Election::factory()->create([
+            'start_date' => now()->subHour(),
+            'end_date' => now()->addHour(),
+            'status' => 'active',
+        ]);
 
-        $response = $this->actingAs($user)->get('/');
+        $response = $this->actingAs($user)->get('/elections');
 
         $response->assertStatus(200);
         $response->assertSee($election->title);
@@ -27,9 +31,9 @@ class VotingTest extends TestCase
     {
         $user = User::factory()->create(['is_verified' => true]);
         $election = Election::factory()->create([
-            'is_active' => true,
-            'start_time' => now()->subHour(),
-            'end_time' => now()->addHour(),
+            'status' => 'active',
+            'start_date' => now()->subHour(),
+            'end_date' => now()->addHour(),
         ]);
 
         $response = $this->actingAs($user)->get("/elections/{$election->id}");
@@ -42,9 +46,9 @@ class VotingTest extends TestCase
     {
         $user = User::factory()->create(['is_verified' => true]);
         $election = Election::factory()->create([
-            'is_active' => true,
-            'start_time' => now()->subHour(),
-            'end_time' => now()->addHour(),
+            'status' => 'active',
+            'start_date' => now()->subHour(),
+            'end_date' => now()->addHour(),
         ]);
         $candidate = Candidate::factory()->create(['election_id' => $election->id]);
 
@@ -60,9 +64,9 @@ class VotingTest extends TestCase
     {
         $user = User::factory()->create(['is_verified' => true]);
         $election = Election::factory()->create([
-            'is_active' => true,
-            'start_time' => now()->subHour(),
-            'end_time' => now()->addHour(),
+            'status' => 'active',
+            'start_date' => now()->subHour(),
+            'end_date' => now()->addHour(),
         ]);
         $candidate = Candidate::factory()->create(['election_id' => $election->id]);
 
@@ -86,9 +90,9 @@ class VotingTest extends TestCase
     {
         $user = User::factory()->create(['is_verified' => false]);
         $election = Election::factory()->create([
-            'is_active' => true,
-            'start_time' => now()->subHour(),
-            'end_time' => now()->addHour(),
+            'status' => 'active',
+            'start_date' => now()->subHour(),
+            'end_date' => now()->addHour(),
         ]);
         $candidate = Candidate::factory()->create(['election_id' => $election->id]);
 

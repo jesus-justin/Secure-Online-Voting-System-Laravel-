@@ -1,0 +1,26 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Candidate;
+use App\Models\Election;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
+/**
+ * @extends Factory<Candidate>
+ */
+class CandidateFactory extends Factory
+{
+    protected $model = Candidate::class;
+
+    public function definition(): array
+    {
+        return [
+            'election_id' => Election::factory(),
+            'name' => $this->faker->name(),
+            'description' => $this->faker->sentence(8),
+            'image_url' => null,
+            'position' => $this->faker->numberBetween(1, 5),
+        ];
+    }
+}

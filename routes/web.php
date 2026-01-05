@@ -26,13 +26,14 @@ Route::middleware('auth')->group(function () {
     // Home/Dashboard page
     Route::get('/home', function () {
         return view('pages.home', [
-            'activeElections' => \App\Models\Election::where('status', 'active')->count(),
+            'activeElections' => \App\Models\Election::where('start_date', '<=', now())
+                ->where('end_date', '>=', now())
+                ->count(),
             'castVotes' => \App\Models\Vote::where('user_id', auth()->id())->count(),
-            'completedElections' => \App\Models\Election::where('status', 'completed')->count(),
-            'upcomingElections' => \App\Models\Election::where('status', 'pending')->count(),
+            'completedElections' => \App\Models\Election::where('end_date', '<', now())->count(),
+            'upcomingElections' => \App\Models\Election::where('start_date', '>', now())->count(),
             'elections' => \App\Models\Election::with('candidates', 'votes')
-                ->where('status', 'active')
-                ->orWhere('status', 'pending')
+                ->orderBy('start_date', 'desc')
                 ->get(),
         ]);
     })->name('home');
