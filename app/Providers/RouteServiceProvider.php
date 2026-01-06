@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
-    public const HOME = '/';
+    /**
+     * The path to the "home" route for your application.
+     */
+    public const HOME = '/home';
 
     public function boot(): void
     {
