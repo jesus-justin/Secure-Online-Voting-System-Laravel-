@@ -20,6 +20,11 @@ class User extends Authenticatable
         'is_verified',
         'verified_at',
         'last_login_at',
+        'email_notifications',
+        'sms_notifications',
+        'phone_number',
+        'avatar',
+        'bio',
     ];
 
     protected $hidden = [
