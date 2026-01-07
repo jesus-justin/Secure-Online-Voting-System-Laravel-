@@ -512,6 +512,56 @@ html {
     animation: fadeInScale 0.4s ease-out;
 }
 
+/* Enhanced accessibility features */
+.skip-to-content {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+    z-index: 999;
+}
+
+.skip-to-content:focus {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: var(--gradient-primary);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    border-radius: 0 0 10px 0;
+    z-index: 9999;
+}
+
+/* Focus visible for better keyboard navigation */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--gradient-primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: more) {
+    .card {
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
