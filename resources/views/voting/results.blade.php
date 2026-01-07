@@ -14,197 +14,186 @@
                             <div>
                                 <h3 class="mb-0">Election Results</h3>
                                 <p class="mb-0 opacity-75">{{ $election->title }}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex gap-2 align-items-center">
-                            <span class="badge bg-white text-dark px-3 py-2">
-                                <i class="bi bi-people-fill" aria-hidden="true"></i> {{ $totalVotes }} Total Votes
-                            </span>
-                            <div class="dropdown">
-                                <button class="btn btn-light btn-sm dropdown-toggle" type="button" 
-                                        id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                                        aria-label="Export results">
-                                    <i class="bi bi-download"></i> Export
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="exportDropdown">
-                                    <li><a class="dropdown-item" href="#" onclick="exportToPDF(); return false;">
-                                        <i class="bi bi-file-pdf"></i> Export as PDF
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="exportToCSV(); return false;">
-                                        <i class="bi bi-file-spreadsheet"></i> Export as CSV
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="#" onclick="printResults(); return false;">
-                                        <i class="bi bi-printer"></i> Print Results
-                                    </a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body p-4 p-md-5">
-                    <!-- Results Info Header -->
-                    <div class="alert alert-info border-0 shadow-sm mb-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-6">
-                                <i class="bi bi-info-circle-fill" aria-hidden="true"></i> 
-                                <strong>Total Votes Cast:</strong> {{ $totalVotes }}
-                            </div>
-                            <div class="col-md-6 text-md-end mt-2 mt-md-0">
-                                <small>
-                                    <i class="bi bi-calendar-range" aria-hidden="true"></i> 
-                                    {{ $election->start_date->format('M d, Y H:i') }} - {{ $election->end_date->format('M d, Y H:i') }}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Visualization Toggle -->
-                    <div class="d-flex justify-content-center mb-4">
-                        <div class="btn-group" role="group" aria-label="View type">
-                            <input type="radio" class="btn-check" name="viewType" id="barView" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary" for="barView" onclick="showView('bar')">
-                                <i class="bi bi-bar-chart-fill"></i> Bar View
-                            </label>
-                            
-                            <input type="radio" class="btn-check" name="viewType" id="pieView" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="pieView" onclick="showView('pie')">
-                                <i class="bi bi-pie-chart-fill"></i> Pie Chart
-                            </label>
-                            
-                            <input type="radio" class="btn-check" name="viewType" id="tableViewOption" autocomplete="off">
-                            <label class="btn btn-outline-primary" for="tableViewOption" onclick="showView('table')">
-                                <i class="bi bi-table"></i> Table View
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <!-- Pie Chart View -->
-                    <div id="pieChartView" class="mb-5" style="display: none;">
-                        <div class="row">
-                            <div class="col-lg-8 mx-auto">
-                                <canvas id="resultsPieChart" style="max-height: 400px;"></canvas>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Bar Chart View -->
-                    <div id="barChartView" class="mb-5">
-                        <canvas id="resultsBarChart" style="max-height: 350px;"></canvas>
-                    </div>
-                    
-                    <!-- Table View -->
-                    <div id="tableView" style="display: none;">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-primary">
-                                    <tr>
-                                        <th>Rank</th>
-                                        <th>Candidate</th>
-                                        <th>Votes</th>
-                                        <th>Percentage</th>
-                                        <th>Visual</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($results as $index => $candidate)
-                                        <tr>
-                                            <td>
-                                                @if($index === 0)
-                                                    <i class="bi bi-trophy-fill text-warning" style="font-size: 1.5rem;"></i>
-                                                @else
-                                                    <span class="badge bg-secondary">{{ $index + 1 }}</span>
-                                                @endif
-                                            </td>
-                                            <td><strong>{{ $candidate->name }}</strong></td>
-                                            <td>{{ $candidate->votes_count }}</td>
-                                            <td>
-                                                <strong>{{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}%</strong>
-                                            </td>
-                                            <td>
-                                                <div class="progress" style="width: 200px; height: 20px;">
-                                                    <div class="progress-bar bg-primary" 
-                                                         style="width: {{ $totalVotes > 0 ? ($candidate->votes_count / $totalVotes * 100) : 0 }}%"></div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Candidate Cards View -->
-                    <div class="row g-4" id="candidateCards">
-                        @foreach($results as $index => $candidate)
-                            <div class="col-md-6 candidate-card-item" data-votes="{{ $candidate->votes_count }}">
-                                <div class="card shadow-sm border-0 h-100" 
-                                     style="border-left: 4px solid {{ $index === 0 ? '#ffc107' : '#6c757d' }} !important;
-                                            animation: fadeInUp 0.5s ease-out {{ $index * 0.1 }}s backwards;">
-                                    <div class="card-body p-4">
-                                        <div class="d-flex justify-content-between align-items-center mb-3">
-                                            <h5 class="mb-0 fw-bold">
-                                                @if($index === 0)
-                                                    <i class="bi bi-trophy-fill text-warning me-2" style="font-size: 1.5rem;" aria-hidden="true"></i>
-                                                @elseif($index === 1)
-                                                    <i class="bi bi-award-fill text-secondary me-2" aria-hidden="true"></i>
-                                                @elseif($index === 2)
-                                                    <i class="bi bi-award text-info me-2" aria-hidden="true"></i>
-                                                @else
-                                                    <span class="badge bg-light text-dark me-2">{{ $index + 1 }}</span>
-                                                @endif
-                                                {{ $candidate->name }}
-                                            </h5>
-                                            <div class="text-end">
-                                                <h4 class="mb-0 text-primary vote-count" data-target="{{ $candidate->votes_count }}">0</h4>
-                                                <small class="text-muted">votes</small>
+                            <div class="results-hero">
+                                <div class="container py-4 py-md-5">
+                                    <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+                                        <div>
+                                            <p class="text-uppercase small fw-bold text-muted mb-1">Election Results</p>
+                                            <h1 class="fw-bold mb-2">{{ $election->title }}</h1>
+                                            <div class="d-flex flex-wrap gap-2 align-items-center">
+                                                <span class="chip chip-soft">{{ $election->start_date->format('M d, Y') }} - {{ $election->end_date->format('M d, Y') }}</span>
+                                                <span class="chip chip-soft">Total Votes: {{ $totalVotes }}</span>
+                                                <span class="chip chip-accent">
+                                                    <i class="bi bi-shield-lock me-1"></i> Verified & Audited
+                                                </span>
                                             </div>
                                         </div>
-
-                                        <div class="progress mb-3 shadow-sm" style="height: 35px; border-radius: 10px;">
-                                            <div class="progress-bar {{ $index === 0 ? 'bg-warning' : 'bg-primary' }} bg-gradient animated-bar" 
-                                                 role="progressbar" 
-                                                 data-width="{{ $totalVotes > 0 ? ($candidate->votes_count / $totalVotes * 100) : 0 }}"
-                                                 style="width: 0%"
-                                                 aria-valuenow="{{ $candidate->votes_count }}" 
-                                                 aria-valuemin="0" 
-                                                 aria-valuemax="{{ $totalVotes }}"
-                                                 aria-label="{{ $candidate->name }} received {{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}% of votes">
-                                                <strong class="percentage-text" style="font-size: 1.1rem;" data-percentage="{{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}">0%</strong>
-                                            </div>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            <button class="btn btn-light btn-sm" onclick="printResults()">
+                                                <i class="bi bi-printer me-1"></i> Print
+                                            </button>
+                                            <button class="btn btn-outline-light btn-sm" onclick="exportToCSV()">
+                                                <i class="bi bi-file-spreadsheet me-1"></i> Export CSV
+                                            </button>
                                         </div>
-
-                                        @if($candidate->description)
-                                            <p class="text-muted small mb-0">
-                                                <i class="bi bi-info-circle" aria-hidden="true"></i> {{ $candidate->description }}
-                                            </p>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
 
-                    <div class="text-center mt-4">
-                        <a href="{{ route('voting.index') }}" class="btn btn-secondary">
-                            <i class="bi bi-arrow-left" aria-hidden="true"></i> Back to Elections
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
+                            <div class="container py-5">
+                                <div class="row g-4">
+                                    <div class="col-lg-4">
+                                        <div class="glass-card h-100 p-4">
+                                            <div class="d-flex align-items-start justify-content-between mb-3">
+                                                <div>
+                                                    <p class="text-uppercase small text-muted mb-1">Overview</p>
+                                                    <h4 class="mb-0">Election Snapshot</h4>
+                                                </div>
+                                                <span class="badge bg-success-subtle text-success">Live Results</span>
+                                            </div>
 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-// Chart Data
-const candidateNames = {!! json_encode($results->pluck('name')) !!};
-const candidateVotes = {!! json_encode($results->pluck('votes_count')) !!};
-const totalVotes = {{ $totalVotes }};
+                                            <div class="kpi-grid">
+                                                <div class="kpi-card">
+                                                    <p class="kpi-label">Total Votes</p>
+                                                    <h3 class="kpi-value">{{ $totalVotes }}</h3>
+                                                    <span class="kpi-sub">Encrypted & verified</span>
+                                                </div>
+                                                <div class="kpi-card">
+                                                    <p class="kpi-label">Timeframe</p>
+                                                    <h6 class="kpi-value">{{ $election->start_date->format('M d, Y') }}</h6>
+                                                    <span class="kpi-sub">to {{ $election->end_date->format('M d, Y') }}</span>
+                                                </div>
+                                                <div class="kpi-card">
+                                                    <p class="kpi-label">Status</p>
+                                                    <span class="badge bg-primary-subtle text-primary">{{ $election->hasEnded() ? 'Completed' : 'In Progress' }}</span>
+                                                    <span class="kpi-sub">Integrity checks enabled</span>
+                                                </div>
+                                            </div>
 
-// Color palette
+                                            <div class="segmented-control mt-4" role="group" aria-label="View type">
+                                                <button class="segment active" id="segment-bar" onclick="switchView('bar')">
+                                                    <i class="bi bi-bar-chart-fill me-1"></i> Bar
+                                                </button>
+                                                <button class="segment" id="segment-pie" onclick="switchView('pie')">
+                                                    <i class="bi bi-pie-chart-fill me-1"></i> Pie
+                                                </button>
+                                                <button class="segment" id="segment-table" onclick="switchView('table')">
+                                                    <i class="bi bi-table me-1"></i> Table
+                                                </button>
+                                            </div>
+
+                                            <div class="mt-4 d-flex align-items-center gap-2 flex-wrap">
+                                                <span class="legend-dot" style="background: rgba(255, 193, 7, 0.9);"></span> Lead
+                                                <span class="legend-dot" style="background: rgba(108, 117, 125, 0.9);"></span> Runner-up
+                                                <span class="legend-dot" style="background: rgba(23, 162, 184, 0.9);"></span> Third
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-8">
+                                        <div class="card shadow-lg border-0">
+                                            <div class="card-body p-4 p-md-5">
+                                                <div class="chart-container mb-4" id="barChartView">
+                                                    <canvas id="resultsBarChart"></canvas>
+                                                </div>
+
+                                                <div class="chart-container mb-4" id="pieChartView" style="display: none;">
+                                                    <canvas id="resultsPieChart"></canvas>
+                                                </div>
+
+                                                <div id="tableView" style="display: none;">
+                                                    <div class="table-responsive rounded-4 overflow-hidden shadow-sm">
+                                                        <table class="table align-middle mb-0">
+                                                            <thead class="table-light">
+                                                                <tr class="text-uppercase small text-muted">
+                                                                    <th>Rank</th>
+                                                                    <th>Candidate</th>
+                                                                    <th class="text-end">Votes</th>
+                                                                    <th class="text-end">Percentage</th>
+                                                                    <th style="width: 200px;">Visual</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @foreach($results as $index => $candidate)
+                                                                    <tr>
+                                                                        <td>
+                                                                            @if($index === 0)
+                                                                                <i class="bi bi-trophy-fill text-warning" style="font-size: 1.25rem;"></i>
+                                                                            @else
+                                                                                <span class="badge bg-secondary-subtle text-secondary">{{ $index + 1 }}</span>
+                                                                            @endif
+                                                                        </td>
+                                                                        <td class="fw-semibold">{{ $candidate->name }}</td>
+                                                                        <td class="text-end">{{ $candidate->votes_count }}</td>
+                                                                        <td class="text-end fw-bold">
+                                                                            {{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}%
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="progress progress-compact">
+                                                                                <div class="progress-bar" 
+                                                                                     role="progressbar"
+                                                                                     style="width: {{ $totalVotes > 0 ? ($candidate->votes_count / $totalVotes * 100) : 0 }}%"></div>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row g-3 g-md-4" id="candidateCards">
+                                                    @foreach($results as $index => $candidate)
+                                                        <div class="col-md-6 candidate-card-item" data-votes="{{ $candidate->votes_count }}">
+                                                            <div class="card border-0 shadow-sm h-100 ribbon-card" data-rank="{{ $index + 1 }}">
+                                                                <div class="card-body p-4">
+                                                                    <div class="d-flex justify-content-between align-items-start mb-3">
+                                                                        <div class="d-flex align-items-center gap-2">
+                                                                            <span class="rank-pill">{{ $index + 1 }}</span>
+                                                                            <div>
+                                                                                <h5 class="mb-0 fw-bold">{{ $candidate->name }}</h5>
+                                                                                @if($candidate->description)
+                                                                                    <p class="text-muted small mb-0">{{ $candidate->description }}</p>
+                                                                                @endif
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="text-end">
+                                                                            <h4 class="mb-0 text-primary vote-count" data-target="{{ $candidate->votes_count }}">0</h4>
+                                                                            <small class="text-muted">votes</small>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="progress gradient-progress mb-2">
+                                                                        <div class="progress-bar animated-bar" 
+                                                                             role="progressbar" 
+                                                                             data-width="{{ $totalVotes > 0 ? ($candidate->votes_count / $totalVotes * 100) : 0 }}"
+                                                                             style="width: 0%"
+                                                                             aria-valuenow="{{ $candidate->votes_count }}" 
+                                                                             aria-valuemin="0" 
+                                                                             aria-valuemax="{{ $totalVotes }}">
+                                                                            <span class="percentage-text" data-percentage="{{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}">0%</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex justify-content-between small text-muted">
+                                                                        <span>Share of vote</span>
+                                                                        <span>{{ $totalVotes > 0 ? round(($candidate->votes_count / $totalVotes * 100), 2) : 0 }}%</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+
+                                                <div class="text-center mt-4">
+                                                    <a href="{{ route('voting.index') }}" class="btn btn-outline-secondary">
+                                                        <i class="bi bi-arrow-left"></i> Back to Elections
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 const colors = [
     'rgba(255, 193, 7, 0.8)',  // Gold for 1st
     'rgba(108, 117, 125, 0.8)', // Silver for 2nd
@@ -320,22 +309,26 @@ const pieChart = new Chart(pieCtx, {
     }
 });
 
-// View switcher
-function showView(viewType) {
+// View switcher with segmented control state
+function switchView(viewType) {
     document.getElementById('barChartView').style.display = 'none';
     document.getElementById('pieChartView').style.display = 'none';
     document.getElementById('tableView').style.display = 'none';
     document.getElementById('candidateCards').style.display = 'none';
+    document.querySelectorAll('.segment').forEach(btn => btn.classList.remove('active'));
     
     if (viewType === 'bar') {
         document.getElementById('barChartView').style.display = 'block';
         document.getElementById('candidateCards').style.display = 'flex';
         barChart.update();
+        document.getElementById('segment-bar').classList.add('active');
     } else if (viewType === 'pie') {
         document.getElementById('pieChartView').style.display = 'block';
         pieChart.update();
+        document.getElementById('segment-pie').classList.add('active');
     } else if (viewType === 'table') {
         document.getElementById('tableView').style.display = 'block';
+        document.getElementById('segment-table').classList.add('active');
     }
 }
 

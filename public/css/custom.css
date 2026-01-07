@@ -202,6 +202,198 @@ html {
     transform: scale(1.02);
 }
 
+/* Results page refresh */
+.results-hero {
+    background: linear-gradient(135deg, #101828, #1d1f3b);
+    color: #e4e7ec;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.results-hero h1 {
+    color: #fff;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #e4e7ec;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.chip-soft {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.chip-accent {
+    background: rgba(102, 126, 234, 0.18);
+    color: #cfd8ff;
+    border-color: rgba(102, 126, 234, 0.35);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(8px);
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .glass-card {
+    background: rgba(32, 33, 46, 0.85);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 0.75rem;
+}
+
+.kpi-card {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+}
+
+.kpi-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.35rem;
+}
+
+.kpi-value {
+    margin: 0;
+}
+
+.kpi-sub {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+}
+
+.segmented-control {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 0.25rem;
+    gap: 0.25rem;
+}
+
+.segment {
+    border: none;
+    background: transparent;
+    padding: 0.65rem 0.75rem;
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.segment.active {
+    background: var(--gradient-primary);
+    color: #fff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.chart-container {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.progress-compact {
+    height: 12px;
+    background: var(--bg-tertiary);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-compact .progress-bar {
+    background: var(--gradient-primary);
+}
+
+.ribbon-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.ribbon-card::before {
+    content: attr(data-rank);
+    position: absolute;
+    top: 0;
+    right: -30px;
+    background: var(--gradient-primary);
+    color: #fff;
+    padding: 0.35rem 1.5rem;
+    transform: rotate(45deg);
+    font-weight: 700;
+    font-size: 0.85rem;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+.rank-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.gradient-progress {
+    height: 38px;
+    background: var(--bg-tertiary);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gradient-progress .progress-bar {
+    background: linear-gradient(90deg, #667eea, #38ef7d);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 0.75rem;
+    font-weight: 700;
+}
+
+.gradient-progress .percentage-text {
+    font-size: 0.95rem;
+}
+
+[data-theme="dark"] .results-hero {
+    background: linear-gradient(135deg, #0b1224, #101828);
+}
+
+[data-theme="dark"] .chip {
+    color: #d0d5dd;
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .chart-container {
+    box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
