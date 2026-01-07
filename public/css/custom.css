@@ -456,6 +456,13 @@ html {
     border-color: rgba(255, 193, 7, 0.35);
 }
 
+/* Login page improvements */
+.login-card {
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;

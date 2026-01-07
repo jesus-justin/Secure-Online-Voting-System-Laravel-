@@ -11,7 +11,7 @@
     <div class="container position-relative">
         <div class="row justify-content-center">
             <div class="col-md-5">
-                <div class="card shadow-lg border-0" style="border-radius: 20px; backdrop-filter: blur(10px);">
+                <div class="card shadow-lg border-0 login-card">
                     <div class="card-body p-5">
                         <div class="text-center mb-5">
                             <div class="mb-3 position-relative">
@@ -21,7 +21,7 @@
                                 </div>
                             </div>
                             <h2 class="card-title text-dark fw-bold mb-2">Welcome Back</h2>
-                            <p class="text-muted">Sign in to access your secure voting account</p>
+                            <p class="text-muted">Secure access to your voting account</p>
                         </div>
 
                         @if ($errors->any())
