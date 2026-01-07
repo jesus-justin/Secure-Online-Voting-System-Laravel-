@@ -426,6 +426,36 @@ html {
     padding: 0.65rem 1.25rem;
 }
 
+/* Dashboard hero */
+.dashboard-hero {
+    background: linear-gradient(135deg, #101828, #1d1f3b);
+    color: #e4e7ec;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.dashboard-hero h1 {
+    color: #fff;
+}
+
+.logout-card {
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.chip-success {
+    background: rgba(40, 167, 69, 0.15);
+    color: #06a84e;
+    border-color: rgba(40, 167, 69, 0.35);
+}
+
+.chip-warning {
+    background: rgba(255, 193, 7, 0.15);
+    color: #e8a62f;
+    border-color: rgba(255, 193, 7, 0.35);
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;

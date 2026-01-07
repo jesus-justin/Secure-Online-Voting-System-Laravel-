@@ -3,43 +3,49 @@
 @section('title', 'Dashboard - Secure Voting')
 
 @section('content')
-<div class="container-fluid py-5" style="background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);">
-    <!-- Welcome Header -->
-    <div class="row mb-5">
-        <div class="col-md-8">
-            <h1 class="display-4 fw-bold text-dark mb-3">
-                <i class="bi bi-house-heart-fill text-primary"></i> Welcome Back, {{ auth()->user()->name }}!
-            </h1>
-            <p class="lead text-muted mb-3">
-                Here's your voting dashboard overview
-            </p>
-            <div class="d-flex flex-wrap gap-2">
-                @if(auth()->user()->verified_at)
-                    <span class="badge bg-success bg-gradient px-3 py-2" style="font-size: 0.9rem;">
-                        <i class="bi bi-check-circle-fill"></i> Verified User
+<div class="dashboard-hero">
+    <div class="container-fluid py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <p class="text-uppercase small fw-bold text-muted mb-1">Welcome</p>
+                <h1 class="display-3 fw-bold mb-3">
+                    <i class="bi bi-house-heart-fill text-primary me-2"></i> {{ auth()->user()->name }}
+                </h1>
+                <p class="lead text-muted mb-4">Your secure voting dashboard is ready</p>
+                <div class="d-flex flex-wrap gap-2">
+                    @if(auth()->user()->verified_at)
+                        <span class="chip chip-success">
+                            <i class="bi bi-check-circle-fill me-1"></i> Verified User
+                        </span>
+                    @else
+                        <span class="chip chip-warning">
+                            <i class="bi bi-exclamation-triangle-fill me-1"></i> Pending Verification
+                        </span>
+                    @endif
+                    @php
+                        $lastLogin = auth()->user()->last_login_at;
+                    @endphp
+                    <span class="chip chip-accent">
+                        <i class="bi bi-clock-history me-1"></i> {{ $lastLogin ? $lastLogin->diffForHumans() : 'First login' }}
                     </span>
-                @else
-                    <span class="badge bg-warning text-dark px-3 py-2" style="font-size: 0.9rem;">
-                        <i class="bi bi-exclamation-triangle-fill"></i> Pending Verification
-                    </span>
-                @endif
-                @php
-                    $lastLogin = auth()->user()->last_login_at;
-                @endphp
-                <span class="badge bg-info bg-gradient px-3 py-2" style="font-size: 0.9rem;">
-                    <i class="bi bi-clock-history"></i> Last login: {{ $lastLogin ? $lastLogin->diffForHumans() : 'First time' }}
-                </span>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-flex align-items-center justify-content-end">
+                <div class="logout-card">
+                    <a href="{{ route('logout') }}" class="btn btn-outline-danger btn-lg" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-box-arrow-right me-2"></i> Logout
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="col-md-4 text-md-end mt-4 mt-md-0">
-            <a href="{{ route('logout') }}" class="btn btn-outline-danger btn-lg shadow-sm" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                @csrf
-            </form>
-        </div>
     </div>
+</div>
+
+<div class="container-fluid py-5" style="background: var(--bg-secondary);">
+
 
     <!-- Warning Alert for Unverified Users -->
     @if(!auth()->user()->verified_at)
