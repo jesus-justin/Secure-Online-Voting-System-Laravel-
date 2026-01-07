@@ -686,6 +686,64 @@ textarea:focus-visible {
     }
 }
 
+/* Responsive typography */
+@media (max-width: 768px) {
+    .display-3 {
+        font-size: 2rem;
+    }
+    
+    .display-4 {
+        font-size: 1.75rem;
+    }
+    
+    .display-5 {
+        font-size: 1.5rem;
+    }
+    
+    h1 {
+        font-size: 1.75rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 991px) {
+    .navbar {
+        padding: 1rem 0;
+    }
+    
+    .navbar-nav {
+        gap: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.5rem 0 !important;
+    }
+}
+
+/* Card spacing for mobile */
+@media (max-width: 576px) {
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    .row g-4 > * {
+        padding-right: 0.5rem;
+        padding-left: 0.5rem;
+    }
+    
+    .glass-card {
+        padding: 1rem !important;
+    }
+    
+    .hero-section {
+        padding: 2rem 0 !important;
+    }
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
