@@ -3,6 +3,18 @@
 @section('title', $election->title)
 
 @section('content')
+<div class="voting-hero mb-4">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <p class="text-uppercase small fw-bold text-muted mb-1">Election</p>
+                <h1 class="display-3 fw-bold mb-3">{{ $election->title }}</h1>
+                <p class="lead text-muted">Cast your secure, anonymous vote with confidence</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-md-10 col-lg-8">
@@ -11,8 +23,8 @@
                     <div class="d-flex align-items-center">
                         <i class="bi bi-ballot-fill me-3" style="font-size: 2.5rem;"></i>
                         <div>
-                            <h3 class="mb-0">{{ $election->title }}</h3>
-                            <small class="opacity-75">Cast your secure vote</small>
+                            <h3 class="mb-0">Select Your Candidate</h3>
+                            <small class="opacity-75">Every vote is encrypted and verified</small>
                         </div>
                     </div>
                 </div>

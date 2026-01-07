@@ -394,6 +394,38 @@ html {
     box-shadow: 0 12px 30px rgba(0,0,0,0.35);
 }
 
+/* Elections listing page */
+.elections-hero {
+    background: linear-gradient(135deg, #101828, #1d1f3b);
+    color: #e4e7ec;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.elections-hero h1 {
+    color: #fff;
+}
+
+.voting-hero {
+    background: linear-gradient(135deg, #101828, #1d1f3b);
+    color: #e4e7ec;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.voting-hero h1 {
+    color: #fff;
+}
+
+/* Enhanced form inputs for listings */
+.input-group-lg .form-control {
+    font-size: 1rem;
+    padding: 0.65rem 1.25rem;
+}
+
+.form-select-lg {
+    font-size: 1rem;
+    padding: 0.65rem 1.25rem;
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;

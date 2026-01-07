@@ -3,64 +3,78 @@
 @section('title', 'Active Elections')
 
 @section('content')
-<div class="container py-5">
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <h1 class="display-4 fw-bold mb-3">
-                <i class="bi bi-vote-fill text-primary" aria-hidden="true"></i> Active Elections
-            </h1>
-            <p class="lead text-muted">Select an election below to cast your secure vote</p>
-            <div class="d-inline-block mt-3">
-                <span class="badge bg-primary bg-gradient px-4 py-2" style="font-size: 1rem;">
-                    <i class="bi bi-check-circle-fill" aria-hidden="true"></i> Secure & Anonymous Voting
-                </span>
+<div class="elections-hero mb-5">
+    <div class="container py-5">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <p class="text-uppercase small fw-bold text-muted mb-1">Active Elections</p>
+                <h1 class="display-3 fw-bold mb-3">Cast Your Secure Vote</h1>
+                <p class="lead text-muted mb-4">Participate in secure, anonymous elections with military-grade encryption</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="chip chip-accent">
+                        <i class="bi bi-shield-lock me-1"></i> End-to-End Encrypted
+                    </span>
+                    <span class="chip chip-accent">
+                        <i class="bi bi-incognito me-1"></i> Completely Anonymous
+                    </span>
+                    <span class="chip chip-accent">
+                        <i class="bi bi-graph-up me-1"></i> Real-time Results
+                    </span>
+                </div>
+            </div>
+            <div class="col-lg-4 d-none d-lg-block text-end">
+                <div style="font-size: 5rem; opacity: 0.1;"><i class="bi bi-hand-thumbs-up-fill"></i></div>
             </div>
         </div>
     </div>
+</div>
+
+<div class="container">
     
     <!-- Search and Filter Section -->
     <div class="row mb-4">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-sm border-0">
-                <div class="card-body p-4">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-0">
-                                    <i class="bi bi-search"></i>
-                                </span>
-                                <input type="text" 
-                                       class="form-control border-0" 
-                                       id="searchElection" 
-                                       placeholder="Search elections..."
-                                       aria-label="Search elections"
-                                       autocomplete="off">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select border-0 bg-light" 
-                                    id="filterStatus" 
-                                    aria-label="Filter by status">
-                                <option value="all">All Status</option>
-                                <option value="active" selected>Active</option>
-                                <option value="upcoming">Upcoming</option>
-                                <option value="ended">Ended</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select border-0 bg-light" 
-                                    id="sortBy" 
-                                    aria-label="Sort elections">
-                                <option value="date">Date (Newest)</option>
-                                <option value="date-old">Date (Oldest)</option>
-                                <option value="name">Name (A-Z)</option>
-                                <option value="votes">Most Votes</option>
-                            </select>
+        <div class="col-lg-10 mx-auto">
+            <div class="glass-card shadow-sm p-4">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-bold text-muted mb-2">Search Elections</label>
+                        <div class="input-group input-group-lg shadow-sm" style="border-radius: 10px; overflow: hidden;">
+                            <span class="input-group-text bg-light border-0">
+                                <i class="bi bi-search text-primary"></i>
+                            </span>
+                            <input type="text" 
+                                   class="form-control border-0" 
+                                   id="searchElection" 
+                                   placeholder="Search elections..."
+                                   aria-label="Search elections"
+                                   autocomplete="off">
                         </div>
                     </div>
-                    <div class="mt-3 text-muted small" id="searchResults">
-                        <i class="bi bi-info-circle"></i> <span id="resultCount"></span>
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold text-muted mb-2">Status</label>
+                        <select class="form-select form-select-lg border-0 bg-light" 
+                                id="filterStatus" 
+                                aria-label="Filter by status">
+                            <option value="all">All Status</option>
+                            <option value="active" selected>Active</option>
+                            <option value="upcoming">Upcoming</option>
+                            <option value="ended">Ended</option>
+                        </select>
                     </div>
+                    <div class="col-md-3">
+                        <label class="form-label small fw-bold text-muted mb-2">Sort By</label>
+                        <select class="form-select form-select-lg border-0 bg-light" 
+                                id="sortBy" 
+                                aria-label="Sort elections">
+                            <option value="date">Date (Newest)</option>
+                            <option value="date-old">Date (Oldest)</option>
+                            <option value="name">Name (A-Z)</option>
+                            <option value="votes">Most Votes</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mt-3 text-muted small" id="searchResults">
+                    <i class="bi bi-info-circle"></i> <span id="resultCount"></span>
                 </div>
             </div>
         </div>
