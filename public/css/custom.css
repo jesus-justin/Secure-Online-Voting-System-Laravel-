@@ -800,6 +800,87 @@ textarea:focus-visible {
     }
 }
 
+/* Utility classes for spacing and alignment */
+.gap-xs {
+    gap: 0.25rem !important;
+}
+
+.gap-sm {
+    gap: 0.5rem !important;
+}
+
+.gap-md {
+    gap: 1rem !important;
+}
+
+.gap-lg {
+    gap: 1.5rem !important;
+}
+
+.gap-xl {
+    gap: 2rem !important;
+}
+
+/* Hover effects and transitions */
+.card,
+.btn,
+.badge {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+    transform: translateY(-4px);
+}
+
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* Text utilities */
+.text-truncate-2 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.text-truncate-3 {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.fw-semibold {
+    font-weight: 500 !important;
+}
+
+.fw-extrabold {
+    font-weight: 800 !important;
+}
+
+/* Color utilities for gradients */
+.bg-gradient-primary {
+    background: var(--gradient-primary) !important;
+}
+
+.bg-gradient-success {
+    background: var(--gradient-success) !important;
+}
+
+.bg-gradient-danger {
+    background: var(--gradient-danger) !important;
+}
+
+.bg-gradient-warning {
+    background: var(--gradient-warning) !important;
+}
+
+.bg-gradient-info {
+    background: var(--gradient-info) !important;
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
