@@ -623,6 +623,69 @@ textarea:focus-visible {
     }
 }
 
+/* Toast notification styling */
+.toast-container {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    max-width: 500px;
+}
+
+.toast {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: slideInRight 0.4s ease-out;
+    margin-bottom: 1rem;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+.toast-header {
+    background: transparent;
+    border-bottom: 1px solid var(--border-color);
+    border-radius: 12px 12px 0 0;
+    padding: 1rem;
+}
+
+.toast-body {
+    padding: 1rem;
+    color: var(--text-primary);
+}
+
+.toast.toast-success {
+    border-left: 4px solid #28a745;
+}
+
+.toast.toast-error {
+    border-left: 4px solid #dc3545;
+}
+
+.toast.toast-warning {
+    border-left: 4px solid #ffc107;
+}
+
+.toast.toast-info {
+    border-left: 4px solid #17a2b8;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 576px) {
+    .toast-container {
+        left: 1.5rem;
+        right: 1.5rem;
+        max-width: 100%;
+    }
+    
+    .toast {
+        width: 100%;
+    }
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
