@@ -744,6 +744,62 @@ textarea:focus-visible {
     }
 }
 
+/* Dark mode enhancements */
+[data-theme="dark"] {
+    --toast-bg: var(--card-bg);
+    --toast-border: var(--border-color);
+}
+
+[data-theme="dark"] .toast {
+    background: var(--card-bg);
+    border-color: var(--border-color);
+}
+
+[data-theme="dark"] .toast-header {
+    border-bottom-color: var(--border-color);
+}
+
+[data-theme="dark"] .elections-hero,
+[data-theme="dark"] .voting-hero,
+[data-theme="dark"] .dashboard-hero {
+    background: linear-gradient(135deg, #0b1224, #101828);
+}
+
+[data-theme="dark"] .glass-card {
+    background: rgba(32, 33, 46, 0.85);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .login-card {
+    background: rgba(32, 33, 46, 0.95);
+}
+
+[data-theme="dark"] .input-group-text {
+    background-color: var(--bg-tertiary);
+    border-color: var(--input-border);
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .navbar-nav,
+    .btn,
+    .form-control,
+    .form-select {
+        display: none !important;
+    }
+    
+    .card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+    
+    body {
+        background: #fff;
+        color: #000;
+    }
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
