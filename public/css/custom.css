@@ -881,6 +881,47 @@ textarea:focus-visible {
     background: var(--gradient-info) !important;
 }
 
+/* Advanced button styles */
+.btn-elevated {
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+}
+
+.btn-elevated:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.btn-gradient {
+    background: var(--gradient-primary);
+    border: none;
+    color: white;
+}
+
+.btn-gradient:hover {
+    opacity: 0.9;
+    color: white;
+}
+
+.btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-outline-gradient {
+    background: transparent;
+    border: 2px solid;
+    border-image: var(--gradient-primary) 1;
+    position: relative;
+}
+
+.btn-icon-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
