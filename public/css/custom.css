@@ -972,6 +972,60 @@ textarea:focus-visible {
     transform: scale(1.1) rotate(5deg);
 }
 
+/* Status badges with pulse effect */
+.badge-pulse {
+    position: relative;
+    animation: pulse 2s infinite;
+}
+
+.badge-live {
+    background: #28a745;
+    color: white;
+    position: relative;
+}
+
+.badge-live::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 8px;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+.badge-soft {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.badge-outline-primary {
+    background: transparent;
+    color: #667eea;
+    border: 1px solid #667eea;
+}
+
+.badge-outline-success {
+    background: transparent;
+    color: #28a745;
+    border: 1px solid #28a745;
+}
+
+.badge-outline-danger {
+    background: transparent;
+    color: #dc3545;
+    border: 1px solid #dc3545;
+}
+
 input[type="radio"]:checked ~ .candidate-card,
 .candidate-card:has(input[type="radio"]:checked) {
     border-color: #667eea;
