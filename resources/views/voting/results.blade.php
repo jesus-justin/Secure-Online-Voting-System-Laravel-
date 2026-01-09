@@ -16,7 +16,7 @@
                                 <p class="mb-0 opacity-75">{{ $election->title }}</p>
                             </div>
                         </div>
-                        <div class="d-flex flex-wrap gap-2">
+                        <div class="d-flex flex-wrap gap-2 results-actions">
                             <button class="btn btn-light btn-sm" onclick="printResults()">
                                 <i class="bi bi-printer me-1"></i> Print
                             </button>
@@ -42,7 +42,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-wrap gap-2">
+                                <div class="d-flex flex-wrap gap-2 results-actions">
                                     <button class="btn btn-light btn-sm" onclick="printResults()">
                                         <i class="bi bi-printer me-1"></i> Print
                                     </button>
@@ -261,6 +261,26 @@
                     .segment:focus-visible {
                         outline: 2px solid #2563eb;
                         outline-offset: 2px;
+                    }
+
+                    @media print {
+                        .results-actions,
+                        .segmented-control,
+                        #candidateSearch,
+                        .btn-group[aria-label="Sort candidates"],
+                        #noVotesAlert {
+                            display: none !important;
+                        }
+
+                        .card,
+                        .glass-card {
+                            box-shadow: none !important;
+                            border: 1px solid #dee2e6 !important;
+                        }
+
+                        .table-responsive {
+                            box-shadow: none !important;
+                        }
                     }
                 </style>
                 @endpush
