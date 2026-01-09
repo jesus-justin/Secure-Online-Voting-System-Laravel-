@@ -94,13 +94,13 @@
                                     </div>
 
                                     <div class="segmented-control mt-4" role="group" aria-label="View type">
-                                        <button class="segment active" id="segment-bar" onclick="switchView('bar')">
+                                        <button class="segment active" id="segment-bar" data-view="bar" onclick="switchView('bar')">
                                             <i class="bi bi-bar-chart-fill me-1"></i> Bar
                                         </button>
-                                        <button class="segment" id="segment-pie" onclick="switchView('pie')">
+                                        <button class="segment" id="segment-pie" data-view="pie" onclick="switchView('pie')">
                                             <i class="bi bi-pie-chart-fill me-1"></i> Pie
                                         </button>
-                                        <button class="segment" id="segment-table" onclick="switchView('table')">
+                                        <button class="segment" id="segment-table" data-view="table" onclick="switchView('table')">
                                             <i class="bi bi-table me-1"></i> Table
                                         </button>
                                     </div>
@@ -248,6 +248,15 @@
     </div>
 </div>
 @endsection
+
+                @push('styles')
+                <style>
+                    .segment:focus-visible {
+                        outline: 2px solid #2563eb;
+                        outline-offset: 2px;
+                    }
+                </style>
+                @endpush
 
 @push('scripts')
 <script>
@@ -505,6 +514,29 @@ if (sortByVotes && sortByName) {
         setSortActive(sortByName);
     });
 }
+
+const viewSegments = Array.from(document.querySelectorAll('.segment'));
+viewSegments.forEach((segment, index) => {
+    segment.addEventListener('keydown', (event) => {
+        const isArrowRight = event.key === 'ArrowRight';
+        const isArrowLeft = event.key === 'ArrowLeft';
+        const isActivate = event.key === 'Enter' || event.key === ' ';
+
+        if (isArrowRight || isArrowLeft) {
+            event.preventDefault();
+            const nextIndex = isArrowRight
+                ? (index + 1) % viewSegments.length
+                : (index - 1 + viewSegments.length) % viewSegments.length;
+            viewSegments[nextIndex].focus();
+            viewSegments[nextIndex].click();
+        }
+
+        if (isActivate) {
+            event.preventDefault();
+            segment.click();
+        }
+    });
+});
 
 function exportToPDF() {
     showToast('PDF export feature coming soon!', 'info');
