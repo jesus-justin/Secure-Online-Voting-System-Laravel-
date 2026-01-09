@@ -49,6 +49,15 @@
                                     <button class="btn btn-outline-light btn-sm" onclick="exportToCSV()">
                                         <i class="bi bi-file-spreadsheet me-1"></i> Export CSV
                                     </button>
+                                    <button class="btn btn-outline-light btn-sm" onclick="exportToJSON()">
+                                        <i class="bi bi-code-square me-1"></i> Export JSON
+                                    </button>
+                                    <button class="btn btn-outline-light btn-sm" onclick="copyResultsLink()">
+                                        <i class="bi bi-link-45deg me-1"></i> Copy Link
+                                    </button>
+                                    <button class="btn btn-outline-light btn-sm" onclick="refreshResults()">
+                                        <i class="bi bi-arrow-repeat me-1"></i> Refresh
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -421,6 +430,34 @@ function exportToCSV() {
     a.click();
     window.URL.revokeObjectURL(url);
     showToast('Results exported successfully!', 'success');
+}
+
+function exportToJSON() {
+    const payload = candidateNames.map((name, index) => ({
+        name,
+        votes: candidateVotes[index],
+        percentage: totalVotes > 0 ? ((candidateVotes[index] / totalVotes) * 100).toFixed(2) : 0
+    }));
+
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `election_results_${electionId}.json`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    showToast('JSON exported successfully!', 'success');
+}
+
+function copyResultsLink() {
+    const link = window.location.href;
+    navigator.clipboard.writeText(link)
+        .then(() => showToast('Results link copied to clipboard', 'success'))
+        .catch(() => showToast('Unable to copy link', 'error'));
+}
+
+function refreshResults() {
+    window.location.reload();
 }
 
 function printResults() {
