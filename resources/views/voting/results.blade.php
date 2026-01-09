@@ -42,7 +42,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="d-flex flex-wrap gap-2 results-actions">
+                                <div class="d-flex flex-wrap gap-2 results-actions sticky-actions">
                                     <button class="btn btn-light btn-sm" onclick="printResults()">
                                         <i class="bi bi-printer me-1"></i> Print
                                     </button>
@@ -280,6 +280,18 @@
 
                         .table-responsive {
                             box-shadow: none !important;
+                        }
+                    }
+
+                    .sticky-actions {
+                        position: sticky;
+                        top: 1rem;
+                        z-index: 1020;
+                    }
+
+                    @media (max-width: 992px) {
+                        .sticky-actions {
+                            position: static;
                         }
                     }
                 </style>
