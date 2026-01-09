@@ -137,6 +137,13 @@
                                             </div>
                                         </div>
 
+                                        @if($totalVotes === 0)
+                                            <div id="noVotesAlert" class="alert alert-warning d-flex align-items-center gap-2 mb-4" role="status">
+                                                <i class="bi bi-info-circle-fill"></i>
+                                                <div>No votes have been recorded yet. Charts will appear after the first vote.</div>
+                                            </div>
+                                        @endif
+
                                         <div class="chart-container mb-4" id="barChartView">
                                             <canvas id="resultsBarChart"></canvas>
                                         </div>
@@ -264,6 +271,7 @@ const candidateNames = @json($results->pluck('name'));
 const candidateVotes = @json($results->pluck('votes_count'));
 const totalVotes = {{ $totalVotes }};
 const electionId = {{ $election->id }};
+const hasVotes = totalVotes > 0;
 
 const colors = [
     'rgba(255, 193, 7, 0.8)',
@@ -277,106 +285,116 @@ const colors = [
 ];
 
 const borderColors = colors.map(color => color.replace('0.8', '1'));
+let barChart;
+let pieChart;
 
-const barCtx = document.getElementById('resultsBarChart').getContext('2d');
-const barChart = new Chart(barCtx, {
-    type: 'bar',
-    data: {
-        labels: candidateNames,
-        datasets: [{
-            label: 'Votes',
-            data: candidateVotes,
-            backgroundColor: colors,
-            borderColor: borderColors,
-            borderWidth: 2,
-            borderRadius: 8,
-            borderSkipped: false
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: false
-            },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const votes = context.parsed.y;
-                        const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : 0;
-                        return `Votes: ${votes} (${percentage}%)`;
-                    }
-                }
-            }
+const barCanvas = document.getElementById('resultsBarChart');
+const pieCanvas = document.getElementById('resultsPieChart');
+
+if (hasVotes && barCanvas && pieCanvas) {
+    const barCtx = barCanvas.getContext('2d');
+    barChart = new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: candidateNames,
+            datasets: [{
+                label: 'Votes',
+                data: candidateVotes,
+                backgroundColor: colors,
+                borderColor: borderColors,
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false
+            }]
         },
-        scales: {
-            y: {
-                beginAtZero: true,
-                ticks: {
-                    precision: 0
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    display: false
                 },
-                title: {
-                    display: true,
-                    text: 'Number of Votes'
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const votes = context.parsed.y;
+                            const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : 0;
+                            return `Votes: ${votes} (${percentage}%)`;
+                        }
+                    }
                 }
             },
-            x: {
-                title: {
-                    display: true,
-                    text: 'Candidates'
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    },
+                    title: {
+                        display: true,
+                        text: 'Number of Votes'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Candidates'
+                    }
                 }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeOutQuart'
             }
-        },
-        animation: {
-            duration: 2000,
-            easing: 'easeOutQuart'
         }
-    }
-});
+    });
 
-const pieCtx = document.getElementById('resultsPieChart').getContext('2d');
-const pieChart = new Chart(pieCtx, {
-    type: 'doughnut',
-    data: {
-        labels: candidateNames,
-        datasets: [{
-            data: candidateVotes,
-            backgroundColor: colors,
-            borderColor: borderColors,
-            borderWidth: 2
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                position: 'right',
-                labels: {
-                    padding: 15,
-                    font: {
-                        size: 12
+    const pieCtx = pieCanvas.getContext('2d');
+    pieChart = new Chart(pieCtx, {
+        type: 'doughnut',
+        data: {
+            labels: candidateNames,
+            datasets: [{
+                data: candidateVotes,
+                backgroundColor: colors,
+                borderColor: borderColors,
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        padding: 15,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            const votes = context.parsed;
+                            const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : 0;
+                            return `${context.label}: ${votes} votes (${percentage}%)`;
+                        }
                     }
                 }
             },
-            tooltip: {
-                callbacks: {
-                    label: function(context) {
-                        const votes = context.parsed;
-                        const percentage = totalVotes > 0 ? ((votes / totalVotes) * 100).toFixed(2) : 0;
-                        return `${context.label}: ${votes} votes (${percentage}%)`;
-                    }
-                }
+            animation: {
+                animateRotate: true,
+                animateScale: true,
+                duration: 2000
             }
-        },
-        animation: {
-            animateRotate: true,
-            animateScale: true,
-            duration: 2000
         }
-    }
-});
+    });
+} else {
+    document.getElementById('barChartView').style.display = 'none';
+    document.getElementById('pieChartView').style.display = 'none';
+}
 
 function filterCandidates(term) {
     const normalized = term.trim().toLowerCase();
@@ -429,13 +447,17 @@ function switchView(viewType) {
     document.querySelectorAll('.segment').forEach(btn => btn.classList.remove('active'));
 
     if (viewType === 'bar') {
-        document.getElementById('barChartView').style.display = 'block';
+        if (hasVotes) {
+            document.getElementById('barChartView').style.display = 'block';
+            barChart?.update();
+        }
         document.getElementById('candidateCards').style.display = 'flex';
-        barChart.update();
         document.getElementById('segment-bar').classList.add('active');
     } else if (viewType === 'pie') {
-        document.getElementById('pieChartView').style.display = 'block';
-        pieChart.update();
+        if (hasVotes) {
+            document.getElementById('pieChartView').style.display = 'block';
+            pieChart?.update();
+        }
         document.getElementById('segment-pie').classList.add('active');
     } else if (viewType === 'table') {
         document.getElementById('tableView').style.display = 'block';
@@ -516,6 +538,8 @@ if (sortByVotes && sortByName) {
 }
 
 const viewSegments = Array.from(document.querySelectorAll('.segment'));
+const segmentBar = document.getElementById('segment-bar');
+const segmentPie = document.getElementById('segment-pie');
 viewSegments.forEach((segment, index) => {
     segment.addEventListener('keydown', (event) => {
         const isArrowRight = event.key === 'ArrowRight';
@@ -537,6 +561,13 @@ viewSegments.forEach((segment, index) => {
         }
     });
 });
+
+if (!hasVotes) {
+    segmentBar?.setAttribute('disabled', 'disabled');
+    segmentPie?.setAttribute('disabled', 'disabled');
+    document.getElementById('barChartView')?.classList.add('d-none');
+    document.getElementById('pieChartView')?.classList.add('d-none');
+}
 
 function exportToPDF() {
     showToast('PDF export feature coming soon!', 'info');
