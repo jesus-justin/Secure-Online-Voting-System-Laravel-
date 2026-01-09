@@ -121,9 +121,19 @@
                                                 <h5 class="mb-1">Results Overview</h5>
                                                 <p class="text-muted small mb-0">Search candidates or switch between chart views.</p>
                                             </div>
-                                            <div class="input-group" style="max-width: 320px;">
-                                                <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
-                                                <input type="text" id="candidateSearch" class="form-control" placeholder="Search candidates..." aria-label="Search candidates">
+                                            <div class="d-flex flex-wrap align-items-center gap-2">
+                                                <div class="input-group" style="max-width: 320px;">
+                                                    <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                                                    <input type="text" id="candidateSearch" class="form-control" placeholder="Search candidates..." aria-label="Search candidates">
+                                                </div>
+                                                <div class="btn-group" role="group" aria-label="Sort candidates">
+                                                    <button class="btn btn-outline-secondary active" id="sortByVotes" type="button">
+                                                        <i class="bi bi-sort-numeric-down"></i>
+                                                    </button>
+                                                    <button class="btn btn-outline-secondary" id="sortByName" type="button">
+                                                        <i class="bi bi-sort-alpha-down"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -149,7 +159,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @foreach($results as $index => $candidate)
-                                                            <tr data-name="{{ $candidate->name }}">
+                                                            <tr data-name="{{ $candidate->name }}" data-votes="{{ $candidate->votes_count }}">
                                                                 <td>
                                                                     @if($index === 0)
                                                                         <i class="bi bi-trophy-fill text-warning" style="font-size: 1.25rem;"></i>
@@ -382,6 +392,26 @@ function filterCandidates(term) {
     }
 }
 
+function sortCandidates(criteria) {
+    const cardsContainer = document.getElementById('candidateCards');
+    const tableBody = document.querySelector('#tableView tbody');
+
+    if (!cardsContainer || !tableBody) return;
+
+    const cardItems = Array.from(cardsContainer.children);
+    const tableRows = Array.from(tableBody.querySelectorAll('tr'));
+
+    const comparator = (a, b) => {
+        if (criteria === 'name') {
+            return a.dataset.name.toLowerCase().localeCompare(b.dataset.name.toLowerCase());
+        }
+        return Number(b.dataset.votes) - Number(a.dataset.votes);
+    };
+
+    cardItems.sort(comparator).forEach(item => cardsContainer.appendChild(item));
+    tableRows.sort(comparator).forEach(row => tableBody.appendChild(row));
+}
+
 function switchView(viewType) {
     document.getElementById('barChartView').style.display = 'none';
     document.getElementById('pieChartView').style.display = 'none';
@@ -452,6 +482,27 @@ const searchInput = document.getElementById('candidateSearch');
 if (searchInput) {
     searchInput.addEventListener('input', (event) => {
         filterCandidates(event.target.value);
+    });
+}
+
+const sortByVotes = document.getElementById('sortByVotes');
+const sortByName = document.getElementById('sortByName');
+const sortButtons = [sortByVotes, sortByName];
+
+function setSortActive(button) {
+    sortButtons.forEach(btn => btn?.classList.remove('active'));
+    button?.classList.add('active');
+}
+
+if (sortByVotes && sortByName) {
+    sortByVotes.addEventListener('click', () => {
+        sortCandidates('votes');
+        setSortActive(sortByVotes);
+    });
+
+    sortByName.addEventListener('click', () => {
+        sortCandidates('name');
+        setSortActive(sortByName);
     });
 }
 
