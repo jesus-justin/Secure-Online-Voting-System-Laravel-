@@ -116,6 +116,17 @@
                             <div class="col-lg-8">
                                 <div class="card shadow-lg border-0">
                                     <div class="card-body p-4 p-md-5">
+                                        <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                                            <div>
+                                                <h5 class="mb-1">Results Overview</h5>
+                                                <p class="text-muted small mb-0">Search candidates or switch between chart views.</p>
+                                            </div>
+                                            <div class="input-group" style="max-width: 320px;">
+                                                <span class="input-group-text bg-light"><i class="bi bi-search"></i></span>
+                                                <input type="text" id="candidateSearch" class="form-control" placeholder="Search candidates..." aria-label="Search candidates">
+                                            </div>
+                                        </div>
+
                                         <div class="chart-container mb-4" id="barChartView">
                                             <canvas id="resultsBarChart"></canvas>
                                         </div>
@@ -138,7 +149,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @foreach($results as $index => $candidate)
-                                                            <tr>
+                                                            <tr data-name="{{ $candidate->name }}">
                                                                 <td>
                                                                     @if($index === 0)
                                                                         <i class="bi bi-trophy-fill text-warning" style="font-size: 1.25rem;"></i>
@@ -167,7 +178,7 @@
 
                                         <div class="row g-3 g-md-4" id="candidateCards">
                                             @foreach($results as $index => $candidate)
-                                                <div class="col-md-6 candidate-card-item" data-votes="{{ $candidate->votes_count }}">
+                                                <div class="col-md-6 candidate-card-item" data-votes="{{ $candidate->votes_count }}" data-name="{{ $candidate->name }}">
                                                     <div class="card border-0 shadow-sm h-100 ribbon-card" data-rank="{{ $index + 1 }}">
                                                         <div class="card-body p-4">
                                                             <div class="d-flex justify-content-between align-items-start mb-3">
@@ -205,6 +216,10 @@
                                                     </div>
                                                 </div>
                                             @endforeach
+                                        </div>
+
+                                        <div id="noResultsNotice" class="alert alert-info d-none mt-3" role="status">
+                                            No candidates match your search.
                                         </div>
 
                                         <div class="text-center mt-4">
@@ -344,6 +359,29 @@ const pieChart = new Chart(pieCtx, {
     }
 });
 
+function filterCandidates(term) {
+    const normalized = term.trim().toLowerCase();
+    const cardItems = document.querySelectorAll('.candidate-card-item');
+    const tableRows = document.querySelectorAll('#tableView tbody tr');
+    let visibleCount = 0;
+
+    cardItems.forEach(card => {
+        const matches = card.dataset.name.toLowerCase().includes(normalized);
+        card.style.display = matches ? '' : 'none';
+        if (matches) visibleCount++;
+    });
+
+    tableRows.forEach(row => {
+        const matches = row.dataset.name.toLowerCase().includes(normalized);
+        row.style.display = matches ? '' : 'none';
+    });
+
+    const notice = document.getElementById('noResultsNotice');
+    if (notice) {
+        notice.classList.toggle('d-none', visibleCount > 0);
+    }
+}
+
 function switchView(viewType) {
     document.getElementById('barChartView').style.display = 'none';
     document.getElementById('pieChartView').style.display = 'none';
@@ -409,6 +447,13 @@ window.addEventListener('load', () => {
         });
     }, 500);
 });
+
+const searchInput = document.getElementById('candidateSearch');
+if (searchInput) {
+    searchInput.addEventListener('input', (event) => {
+        filterCandidates(event.target.value);
+    });
+}
 
 function exportToPDF() {
     showToast('PDF export feature coming soon!', 'info');
