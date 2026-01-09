@@ -166,7 +166,7 @@
                                                     </thead>
                                                     <tbody>
                                                         @foreach($results as $index => $candidate)
-                                                            <tr data-name="{{ $candidate->name }}" data-votes="{{ $candidate->votes_count }}">
+                                                            <tr data-name="{{ $candidate->name }}" data-votes="{{ $candidate->votes_count }}" class="{{ $index === 0 ? 'table-warning' : '' }}" aria-label="{{ $candidate->name }} ranked {{ $index + 1 }} with {{ $candidate->votes_count }} votes">
                                                                 <td>
                                                                     @if($index === 0)
                                                                         <i class="bi bi-trophy-fill text-warning" style="font-size: 1.25rem;"></i>
