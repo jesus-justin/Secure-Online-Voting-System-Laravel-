@@ -601,6 +601,25 @@ if (!hasVotes) {
     document.getElementById('pieChartView')?.classList.add('d-none');
 }
 
+function debounce(fn, delay = 200) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => fn(...args), delay);
+    };
+}
+
+const resizeCharts = debounce(() => {
+    if (barChart) {
+        barChart.resize();
+    }
+    if (pieChart) {
+        pieChart.resize();
+    }
+}, 200);
+
+window.addEventListener('resize', resizeCharts);
+
 function exportToPDF() {
     showToast('PDF export feature coming soon!', 'info');
 }
