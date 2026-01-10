@@ -11,6 +11,19 @@
                 <h1 class="display-3 fw-bold mb-3">{{ $election->title }}</h1>
                 <p class="lead text-muted">Cast your secure, anonymous vote with confidence</p>
             </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body text-center p-4">
+                        <p class="text-uppercase small text-muted mb-2">Live Vote Count</p>
+                        <h2 id="liveVoteCount" class="display-4 fw-bold text-primary mb-0">{{ $totalVotes ?? 0 }}</h2>
+                        <div class="mt-2">
+                            <span class="badge bg-success-subtle text-success pulse">
+                                <i class="bi bi-broadcast"></i> Live
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -203,5 +216,43 @@ if (voteForm) {
         }
     });
 }
+
+// Live vote counter update
+const electionId = {{ $election->id }};
+function updateLiveVoteCount() {
+    fetch(`/api/elections/${electionId}/vote-count`)
+        .then(response => response.json())
+        .then(data => {
+            const counter = document.getElementById('liveVoteCount');
+            if (counter && data.count !== undefined) {
+                const currentCount = parseInt(counter.textContent);
+                const newCount = data.count;
+                
+                if (newCount !== currentCount) {
+                    // Animate counter update
+                    animateCount(counter, currentCount, newCount, 500);
+                }
+            }
+        })
+        .catch(error => console.error('Error fetching vote count:', error));
+}
+
+function animateCount(element, start, end, duration) {
+    const range = end - start;
+    const increment = range / (duration / 16);
+    let current = start;
+    
+    const timer = setInterval(() => {
+        current += increment;
+        if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+            current = end;
+            clearInterval(timer);
+        }
+        element.textContent = Math.floor(current);
+    }, 16);
+}
+
+// Update every 10 seconds
+setInterval(updateLiveVoteCount, 10000);
 </script>
 @endpush
